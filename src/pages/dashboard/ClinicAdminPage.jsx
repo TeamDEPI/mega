@@ -85,7 +85,7 @@ export default function ClinicAdminPage() {
         const mapped = data.value.map((a) => ({
           id: a.userid,
           name: a.fullname,
-          email: "—",
+          email: a.email,
         }));
         setAdmins(mapped);
       } else if (data.statusCode === 404) {

@@ -105,12 +105,11 @@ export default function ClinicDoctorsPage() {
 
       const data = await res.json();
 
-      if (data.statusCode !== 200) {
-        alert("Failed to book appointment");
+      if (data.statusCode !== 201) {
+        alert(data.message || "Failed to book appointment");
         setBookingLoading(false);
         return;
       }
-
       setSuccessMessage("Your appointment has been booked successfully ✔");
     } catch (err) {
       console.error(err);

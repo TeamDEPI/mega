@@ -5,10 +5,10 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const BASE_URL = API_BASE_URL + "/auth";
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const init = async () => {
-      const token = localStorage.getItem("token");
       const refresh = localStorage.getItem("refreshtoken");
       if (!token || !refresh) {
         setLoading(false);
@@ -37,7 +37,7 @@ export const UserProvider = ({ children }) => {
     };
     init();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [token]);
   const Refreshtoken = async () => {
     try {
       const res = await fetch(`${BASE_URL}/token/refresh`, {
@@ -90,7 +90,7 @@ export const UserProvider = ({ children }) => {
       body: JSON.stringify({ email, otp }),
     });
     const data = await res.json();
-    if (data.statusCode !== 201) throw new Error(data.message);
+    if (data.statusCode !== 200) throw new Error(data.message);
     return data.message;
   };
 

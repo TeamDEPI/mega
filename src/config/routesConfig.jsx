@@ -10,7 +10,7 @@ export const dashboardRoutes = [
     roles: [
       "SystemAdmin",
       "ClinicAdmin",
-      "ClincDoctor",
+      "ClinicDoctor",
       "ClinicReceptionist",
       "User",
     ],
@@ -80,7 +80,7 @@ export const dashboardRoutes = [
     roles: [
       "SystemAdmin",
       "ClinicAdmin",
-      "ClincDoctor",
+      "ClinicDoctor",
       "ClinicReceptionist",
       "User",
     ],
@@ -93,7 +93,7 @@ export const dashboardRoutes = [
     roles: [
       "SystemAdmin",
       "ClinicAdmin",
-      "ClincDoctor",
+      "ClinicDoctor",
       "ClinicReceptionist",
       "User",
     ],

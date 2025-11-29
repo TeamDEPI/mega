@@ -9,21 +9,21 @@ const TwoFactorAuth = () => {
   const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState({ type: "", text: "" });
-  const { sendOtp } = useContext(UserContext);
+  const { sendOtp, user } = useContext(UserContext);
 
   const [showOtpModal, setShowOtpModal] = useState(false);
 
-  const userEmail =
-    JSON.parse(localStorage.getItem("verification"))?.email || "";
   const token = localStorage.getItem("token");
+  console.log(user);
   useEffect(() => {
     try {
-      const verification = JSON.parse(localStorage.getItem("verification"));
-      if (verification?.requiresotpverification === true) {
-        setIs2FAEnabled(true);
-      } else {
-        setIs2FAEnabled(false);
-      }
+      setIs2FAEnabled(user._2fa);
+      // const verification = JSON.parse(localStorage.getItem("verification"));
+      // if (verification?.requiresotpverification === true) {
+      //   setIs2FAEnabled(true);
+      // } else {
+      //   setIs2FAEnabled(false);
+      // }
     } catch (error) {
       console.log("LocalStorage error:", error);
     }
@@ -66,11 +66,6 @@ const TwoFactorAuth = () => {
 
     const data = await res.json();
     if (!data.success) throw new Error(data.message);
-
-    const verification = JSON.parse(localStorage.getItem("verification"));
-    verification.requiresotpverification = true;
-    localStorage.setItem("verification", JSON.stringify(verification));
-
     setIs2FAEnabled(true);
     setShowOtpModal(false);
 
@@ -102,11 +97,6 @@ const TwoFactorAuth = () => {
 
       const data = await res.json();
       if (!data.success) throw new Error(data.message);
-
-      const verification = JSON.parse(localStorage.getItem("verification"));
-      verification.requiresotpverification = false;
-      localStorage.setItem("verification", JSON.stringify(verification));
-
       setIs2FAEnabled(false);
       setIsDeleting(false);
       setPassword("");
@@ -126,10 +116,10 @@ const TwoFactorAuth = () => {
     <div className="max-w-md mx-auto bg-white rounded-lg shadow-md p-6">
       <OtpModal
         visible={showOtpModal}
-        email={userEmail}
+        email={user.email}
         resendTime={15}
         onConfirm={confirm2FA}
-        onResend={() => sendOtp(userEmail, "2fa", token)}
+        onResend={() => sendOtp(user.email, "2fa", token)}
         onClose={() => setShowOtpModal(false)}
       />
       <h2 className="text-2xl font-bold text-gray-800 mb-6">

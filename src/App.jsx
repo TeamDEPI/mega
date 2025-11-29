@@ -22,6 +22,7 @@ import { componentsMap } from "./componentsMap";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ClinicsVisitorsPage from "./pages/ClinicsVisitorsPage";
 import ClinicDoctorsPage from "./pages/ClinicDoctorsPage";
+import Contactus from "./pages/ContactUS";
 
 function App() {
   const { user, loading } = useContext(UserContext);
@@ -31,6 +32,7 @@ function App() {
       <Routes>
         <Route element={<PublicLayout />}>
           <Route path="/" element={<Landing />} />
+          <Route path="/contact-us" element={<Contactus />} />
           <Route path="/clinics" element={<ClinicsVisitorsPage />} />
           <Route path="/clinic/:id/doctors" element={<ClinicDoctorsPage />} />
           <Route

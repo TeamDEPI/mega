@@ -216,21 +216,6 @@ function LoginForm() {
         <Link to="/forget-password">
           <p className="text-muted mt-4">Forget password?</p>
         </Link>
-        {/* Social */}
-        <div
-          className="d-flex w-50 justify-content-between"
-          style={{ maxWidth: "300px" }}
-        >
-          <button className="btn border-0 fs-2">
-            <FaGoogle className="text-danger" />
-          </button>
-          <button className="btn border-0 fs-2">
-            <FaApple className="text-dark" />
-          </button>
-          <button className="btn border-0 fs-2">
-            <FaFacebook className="text-primary" />
-          </button>
-        </div>
       </div>
     </div>
   );

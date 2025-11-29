@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import ClinicCard from "../../components/dashboard/ClinicCard";
-
 import { API_BASE_URL } from "../../config.json";
 
 const ClinicRequests = () => {
@@ -13,15 +12,33 @@ const ClinicRequests = () => {
 
   const clinicsPerPage = 20;
 
-  const fetchClinics = async () => {
+  const fetchClinics = async (
+    page = currentPage,
+    search = searchTerm,
+    status = statusFilter
+  ) => {
     try {
+      let query = `?pageIndex=${page}&pageSize=${clinicsPerPage}`;
+
+      // Search
+      if (search.trim() !== "") {
+        query += `&searchType=name&valueToSearch=${encodeURIComponent(
+          search.trim()
+        )}`;
+      }
+
+      // Status filter
+      if (status !== "all") {
+        query += `&searchType=status&valueToSearch=${status}`;
+      }
+
       const res = await fetch(
-        `${API_BASE_URL}/clinic/clinics-requests?pageIndex=${currentPage}&pageSize=${clinicsPerPage}`,
+        `${API_BASE_URL}/clinic/clinics-requests${query}`,
         {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            authorization: `Bearer ${TOKEN}`,
+            Authorization: `Bearer ${TOKEN}`,
             "Accept-Language": "en",
           },
         }
@@ -36,52 +53,44 @@ const ClinicRequests = () => {
     }
   };
 
+  // Fetch on page change
   useEffect(() => {
     fetchClinics();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage]);
 
-  const filteredClinics = clinics.filter((clinic) => {
-    const matchesStatus =
-      statusFilter === "all" || clinic.status === statusFilter;
+  // Fetch when search changes
+  useEffect(() => {
+    setCurrentPage(1);
+    fetchClinics(1, searchTerm, statusFilter);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchTerm]);
 
-    const matchesSearch =
-      clinic.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      clinic.email.toLowerCase().includes(searchTerm.toLowerCase());
-
-    return matchesStatus && matchesSearch;
-  });
+  // Fetch when filter changes
+  useEffect(() => {
+    setCurrentPage(1);
+    fetchClinics(1, searchTerm, statusFilter);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [statusFilter]);
 
   const totalPages = Math.ceil(totalCount / clinicsPerPage);
 
   const handleApprove = async (id) => {
-    try {
-      const res = await fetch(
-        `${API_BASE_URL}/clinic/approve-clinic-request?clinicId=${id}`,
-        {
-          method: "PATCH",
-          headers: {
-            Authorization: `Bearer ${TOKEN}`,
-            "Content-Type": "application/json",
-            "Accept-Language": "en",
-          },
-        }
-      );
-
-      const data = await res.json();
-
-      if (data.statusCode !== 200) {
-        alert(data.message);
-        return;
+    const res = await fetch(
+      `${API_BASE_URL}/clinic/approve-clinic-request?clinicId=${id}`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${TOKEN}`,
+          "Content-Type": "application/json",
+        },
       }
+    );
 
-      setClinics((prev) =>
-        prev.map((c) => (c.id === id ? { ...c, status: "approved" } : c))
-      );
-    } catch (err) {
-      console.log(err);
-      alert("Approval error");
-    }
+    const data = await res.json();
+    if (data.statusCode !== 200) return alert(data.message);
+
+    fetchClinics(currentPage); // Refresh current page
   };
 
   const handleReject = async (id) => {
@@ -92,20 +101,14 @@ const ClinicRequests = () => {
         headers: {
           Authorization: `Bearer ${TOKEN}`,
           "Content-Type": "application/json",
-          "Accept-Language": "en",
         },
       }
     );
 
     const data = await res.json();
+    if (data.statusCode !== 200) return alert(data.message);
 
-    if (data.statusCode !== 200) {
-      alert(data.message);
-      return;
-    }
-    setClinics((prev) =>
-      prev.map((c) => (c.id === id ? { ...c, status: "rejected" } : c))
-    );
+    fetchClinics(currentPage); // Refresh current page
   };
 
   const handleNext = () =>
@@ -119,26 +122,20 @@ const ClinicRequests = () => {
         Clinic Requests to Join
       </h1>
 
-      {/* 🔎 Search + Filter */}
+      {/* Search + Filter */}
       <div className="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
         <input
           type="text"
           placeholder="Search by name or email..."
           className="w-full sm:w-1/2 px-4 py-2 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={searchTerm}
-          onChange={(e) => {
-            setSearchTerm(e.target.value);
-            setCurrentPage(1);
-          }}
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
 
         <select
           className="w-full sm:w-1/4 px-4 py-2 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={statusFilter}
-          onChange={(e) => {
-            setStatusFilter(e.target.value);
-            setCurrentPage(1);
-          }}
+          onChange={(e) => setStatusFilter(e.target.value)}
         >
           <option value="all">All statuses</option>
           <option value="pending">Pending</option>
@@ -147,17 +144,16 @@ const ClinicRequests = () => {
         </select>
       </div>
 
-      {/* 🏥 Clinic Cards */}
-      {filteredClinics.length > 0 ? (
+      {/* Clinic Cards */}
+      {clinics.length > 0 ? (
         <div className="grid sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-          {filteredClinics.map((clinic) => (
+          {clinics.map((clinic) => (
             <ClinicCard
               key={clinic.id}
               clinic={clinic}
               onUpdateStatus={(id, action) => {
-                console.log(id, action);
                 if (action === "approve") handleApprove(id);
-                if (action === "reject") handleReject(id);
+                else if (action === "reject") handleReject(id);
               }}
             />
           ))}
@@ -168,7 +164,7 @@ const ClinicRequests = () => {
         </p>
       )}
 
-      {/* 📄 Pagination */}
+      {/* Pagination */}
       <div className="flex justify-center items-center mt-10 gap-3">
         <button
           onClick={handlePrev}

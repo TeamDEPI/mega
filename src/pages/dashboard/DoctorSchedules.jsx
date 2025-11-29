@@ -7,19 +7,19 @@ import {
   FaEdit,
   FaTrash,
 } from "react-icons/fa";
-
 import AddScheduleModal from "../../components/dashboard/AddScheduleModal";
 import { API_BASE_URL } from "../../config.json";
 
 const DoctorSchedules = () => {
   const TOKEN = localStorage.getItem("token");
+
   const [groupedSchedules, setGroupedSchedules] = useState({});
   const [doctors, setDoctors] = useState([]);
 
   const [loading, setLoading] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
-
   const [searchTerm, setSearchTerm] = useState("");
+
   const fetchDoctors = async () => {
     try {
       const res = await fetch(`${API_BASE_URL}/ClinicManagement/doctors`, {
@@ -48,28 +48,25 @@ const DoctorSchedules = () => {
           },
         }
       );
+
       const data = await res.json();
-      const arr = data.value || [];
+      const list = data.value || [];
 
-      const grouped = arr.reduce((acc, item) => {
-        if (!acc[item.userid]) {
-          acc[item.userid] = {
-            userid: item.userid,
-            fullname: item.fullname,
-            shifts: [],
-          };
-        }
+      const formatted = {};
 
-        acc[item.userid].shifts.push({
-          day: item.day,
-          start: item.starttime,
-          end: item.endtime,
-        });
+      list.forEach((item) => {
+        formatted[item.doctorid] = {
+          userid: item.doctorid,
+          fullname: item.doctorname,
+          shifts: item.days.map((d) => ({
+            day: d.day,
+            start: d.starttime,
+            end: d.endtime,
+          })),
+        };
+      });
 
-        return acc;
-      }, {});
-
-      setGroupedSchedules(grouped);
+      setGroupedSchedules(formatted);
     } catch (err) {
       console.error("Error fetching schedules:", err);
     }
@@ -79,6 +76,7 @@ const DoctorSchedules = () => {
     fetchDoctors();
     fetchSchedules();
   }, []);
+
   const saveSchedule = async (scheduleData) => {
     try {
       setLoading(true);
@@ -113,7 +111,7 @@ const DoctorSchedules = () => {
   };
 
   const filteredDoctors = doctors.filter((d) =>
-    d.fullname.toLowerCase().includes(searchTerm.toLowerCase())
+    d.fullname.toLowerCase().includes(searchTerm.trim().toLowerCase())
   );
 
   return (
@@ -153,7 +151,8 @@ const DoctorSchedules = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {filteredDoctors.map((doctor) => {
-          const shifts = groupedSchedules[doctor.userid]?.shifts || [];
+          const scheduleObj = groupedSchedules[doctor.userid];
+          const shifts = scheduleObj?.shifts || [];
 
           return (
             <div

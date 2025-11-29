@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import img from "../../assets/images/hero-img copy2.png";
 
 function Hero() {
@@ -28,12 +29,12 @@ function Hero() {
             Risus tellus libero elementum aliquam etiam. Lectus adipiscing est
             auctor mi quisque nunc non viverra est.
           </p>
-          <a
-            href=""
+          <Link
+            to="/contact-us"
             className="bg-[#1CBCCF] text-sm sm:text-base hover:bg-[#1ca5b4] transition duration-300 text-white px-10 sm:px-15 tracking-widest py-3 sm:py-4 rounded-full"
           >
             CONTACT US
-          </a>
+          </Link>
         </div>
 
         <div className="">
