@@ -16,6 +16,7 @@ export default function SettingsPage() {
     phone: "",
     address: "",
     email: "",
+    logo: "",
   };
 
   const [clinicPrice, setClinicPrice] = useState(defaultPrice);
@@ -73,6 +74,7 @@ export default function SettingsPage() {
         email: clinic.email,
         phone: clinic.phone,
         address: fullAddress,
+        logo: clinic.logourl || "",
       });
 
       if (clinic.logourl) setLogoPreview(clinic.logourl);
@@ -135,7 +137,8 @@ export default function SettingsPage() {
 
   const validateEmail = (email) => {
     if (!email) return false;
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex =
+      /^[^\s@]+@(gmail\.com|yahoo\.com|hotmail\.com|outlook\.com)$/i;
     return emailRegex.test(email);
   };
 
@@ -194,6 +197,12 @@ export default function SettingsPage() {
 
         setLastSavedPrice(clinicPrice);
       }
+      setLastSavedSettings({
+        clinicName: clinicSettings.clinicName,
+        email: clinicSettings.email,
+        phone: clinicSettings.phone,
+        address: clinicSettings.address,
+      });
       alert("Settings saved successfully!");
       setIsLoading(false);
     } catch (error) {
@@ -209,7 +218,7 @@ export default function SettingsPage() {
     ) {
       setClinicPrice(lastSavedPrice);
       setClinicSettings({ ...lastSavedSettings });
-      setLogoPreview("");
+      setLogoPreview(lastSavedSettings.logo || "");
       setEmailTouched(false);
       setPhoneTouched(false);
     }
