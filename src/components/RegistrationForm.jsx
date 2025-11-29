@@ -60,7 +60,7 @@ function RegistrationForm() {
     } else if (formInputs.name.length < 3) {
       newErrors.name = "Name must be at least 3 characters";
     }
-
+    console.log(formInputs.password);
     if (!emailRegex.test(formInputs.email))
       newErrors.email = "Email must be a valid Gmail/Yahoo/Outlook/Hotmail";
 
