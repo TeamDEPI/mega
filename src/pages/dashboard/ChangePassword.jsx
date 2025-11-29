@@ -30,8 +30,8 @@ const ChangePasswordPage = () => {
     if (!formData.currentPassword.trim()) {
       newErrors.currentPassword = "Current password is required.";
     }
-    if (formData.newPassword.trim().length < 6) {
-      newErrors.newPassword = "Password must be at least 6 characters.";
+    if (formData.newPassword.trim().length < 8) {
+      newErrors.newPassword = "Password must be at least 8 characters.";
     } else if (!passwordRegex.test(formData.newPassword.trim())) {
       newErrors.newPassword = "Must contain letters, numbers & symbols.";
     }
