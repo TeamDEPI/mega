@@ -94,7 +94,6 @@ function Header() {
         </div>
       </div>
 
-      {/* Mobile Menu - تم التعديل هنا */}
       <div
         className={`
           fixed top-0 left-0 md:hidden w-full h-full z-50 
@@ -107,9 +106,10 @@ function Header() {
           }
         `}
       >
-        {/* Header مع زر الإغلاق */}
         <div className="flex justify-between items-center px-5 pb-4 border-b border-gray-200">
-          <img src={logo} className="w-32" alt="Logo" />
+          <Link to="/">
+            <img src={logo} className="w-32" alt="Logo" />
+          </Link>
           <button
             onClick={() => setMenuOpen(false)}
             className="p-2 rounded-full hover:bg-gray-100 transition duration-200"
