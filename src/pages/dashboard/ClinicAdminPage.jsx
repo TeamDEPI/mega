@@ -281,18 +281,18 @@ export default function ClinicAdminPage() {
             <p className="text-gray-600">No admins found for this clinic.</p>
           ) : (
             <div className="w-full overflow-x-auto">
-              <table className="min-w-[600px] w-full text-sm">
+              <table className="min-w-[600px] w-full text-sm table-fixed">
                 <thead>
                   <tr className="text-gray-500 text-xs border-b">
-                    <th className="p-2">Name</th>
-                    <th className="p-2">Email</th>
-                    <th className="p-2">Reset Password</th>
+                    <th className="p-2 text-left w-1/4">Name</th>
+                    <th className="p-2 text-left w-1/4">Email</th>
+                    <th className="p-2 text-left w-2/4">Reset Password</th>
                   </tr>
                 </thead>
 
                 <tbody>
                   {admins.map((a) => (
-                    <tr key={a.id} className="border-b">
+                    <tr key={a.id} className="border-b align-middle">
                       <td className="p-2">{a.name}</td>
                       <td className="p-2">{a.email}</td>
 
@@ -301,7 +301,7 @@ export default function ClinicAdminPage() {
                           <input
                             type="password"
                             placeholder="New password"
-                            className="p-2 border rounded"
+                            className="p-2 border rounded w-full"
                             value={passwords[a.id] || ""}
                             onChange={(e) =>
                               setPasswords((prev) => ({

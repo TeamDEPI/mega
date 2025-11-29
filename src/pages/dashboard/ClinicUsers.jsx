@@ -64,7 +64,7 @@ export default function ClinicUsersPage() {
     const matchesRole = selectedRole === "All" || user.role === selectedRole;
     const matchesSearch = user.name
       .toLowerCase()
-      .includes(searchTerm.toLowerCase());
+      .includes(searchTerm.trim().toLowerCase());
     return matchesRole && matchesSearch;
   });
 

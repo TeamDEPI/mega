@@ -67,7 +67,7 @@ const ClinicsPage = () => {
   };
 
   const filteredClinics = clinics.filter((clinic) =>
-    clinic.name.toLowerCase().includes(search.toLowerCase())
+    clinic.name.toLowerCase().includes(search.trim().toLowerCase())
   );
 
   const totalPages = Math.ceil(filteredClinics.length / clinicsPerPage);
