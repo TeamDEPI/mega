@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import logo from "../assets/images/logo.png";
 import { Link, useLocation } from "react-router-dom";
 import { UserContext } from "../Contexts/UserContext";
+
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { user, logout } = useContext(UserContext);
@@ -108,75 +109,104 @@ function Header() {
         </div>
       </div>
 
+      {/* Mobile Menu - تم التعديل هنا */}
       <div
         className={`
-          absolute top-20 left-1/2 md:hidden -translate-x-1/2 rounded-b-xl w-[90%] z-20 
-          bg-white text-[#1CBCCF] py-4 space-y-4 shadow-lg
-          transition-all duration-300 origin-top
+          fixed top-0 left-0 md:hidden w-full h-full z-50 
+          bg-white py-6 shadow-lg
+          transition-all duration-300 ease-in-out
           ${
             menuOpen
-              ? "opacity-100 scale-100"
-              : "opacity-0 scale-95 pointer-events-none"
+              ? "opacity-100 translate-x-0"
+              : "opacity-0 -translate-x-full pointer-events-none"
           }
         `}
       >
-        <div className="flex flex-col gap-2 text-center">
-          <Link
-            to="/"
-            className={`transition duration-300 ${
-              isActive("/") ? "text-[#1CBCCF]" : "hover:text-[#1CBCCF]"
-            } `}
+        {/* Header مع زر الإغلاق */}
+        <div className="flex justify-between items-center px-5 pb-4 border-b border-gray-200">
+          <img src={logo} className="w-32" alt="Logo" />
+          <button
+            onClick={() => setMenuOpen(false)}
+            className="p-2 rounded-full hover:bg-gray-100 transition duration-200"
           >
-            Home
-          </Link>
-          <Link
-            to="/clinics"
-            className={`transition duration-300  ${
-              isActive("/clinics") ? "text-[#1CBCCF]" : "hover:text-[#1CBCCF]"
-            }`}
-          >
-            Clinics
-          </Link>
+            <i className="fa-solid fa-xmark text-[#1CBCCF] text-xl"></i>
+          </button>
         </div>
 
-        <div className="flex justify-center gap-4 pt-3 border-t border-gray-200 flex-wrap">
-          {!user ? (
-            <>
-              <Link
-                to="/clinic-register"
-                className="cursor-pointer border-2 border-[#1CBCCF] hover:bg-[#d4fbff] transition duration-300 rounded-full px-7 py-2"
-              >
-                Apply as A clinic
-              </Link>
-              <Link
-                to="/login"
-                className="cursor-pointer border-2 border-[#1CBCCF] hover:bg-[#d4fbff] transition duration-300 rounded-full px-7 py-2"
-              >
-                LOGIN
-              </Link>
-              <Link
-                to="/register"
-                className="cursor-pointer border-2 border-[#1CBCCF] hover:bg-[#d4fbff] transition duration-300 rounded-full px-7 py-2"
-              >
-                REGISTER
-              </Link>
-            </>
-          ) : (
-            <>
-              <Link
-                to="/dashboard"
-                className="cursor-pointer border-2 border-[#1CBCCF] hover:bg-[#d4fbff] transition duration-300 rounded-full px-7 py-2"
-              >
-                DASHBOARD
-              </Link>
-              <Link
-                onClick={logout}
-                className="cursor-pointer border-2 border-[#1CBCCF] hover:bg-[#d4fbff] transition duration-300 rounded-full px-7 py-2"
-              >
-                LOGOUT
-              </Link>
-            </>
-          )}
+        {/* قائمة التنقل */}
+        <div className="px-5 py-6">
+          <div className="flex flex-col gap-4 mb-6">
+            <Link
+              to="/"
+              onClick={() => setMenuOpen(false)}
+              className={`py-3 px-4 text-lg font-medium transition duration-300 ${
+                isActive("/") 
+                  ? "text-[#1CBCCF] bg-blue-50 rounded-lg" 
+                  : "text-gray-700 hover:text-[#1CBCCF] hover:bg-gray-50 rounded-lg"
+              }`}
+            >
+              Home
+            </Link>
+            <Link
+              to="/clinics"
+              onClick={() => setMenuOpen(false)}
+              className={`py-3 px-4 text-lg font-medium transition duration-300 ${
+                isActive("/clinics") 
+                  ? "text-[#1CBCCF] bg-blue-50 rounded-lg" 
+                  : "text-gray-700 hover:text-[#1CBCCF] hover:bg-gray-50 rounded-lg"
+              }`}
+            >
+              Clinics
+            </Link>
+          </div>
+
+          {/* الأزرار */}
+          <div className="flex flex-col gap-3 pt-4 border-t border-gray-200">
+            {!user ? (
+              <>
+                <Link
+                  to="/clinic-register"
+                  onClick={() => setMenuOpen(false)}
+                  className="w-full text-center cursor-pointer border-2 border-[#1CBCCF] text-[#1CBCCF] hover:bg-[#1CBCCF] hover:text-white transition duration-300 rounded-full px-6 py-3 font-medium"
+                >
+                  Apply as A clinic
+                </Link>
+                <Link
+                  to="/login"
+                  onClick={() => setMenuOpen(false)}
+                  className="w-full text-center cursor-pointer border-2 border-[#1CBCCF] text-[#1CBCCF] hover:bg-[#1CBCCF] hover:text-white transition duration-300 rounded-full px-6 py-3 font-medium"
+                >
+                  LOGIN
+                </Link>
+                <Link
+                  to="/register"
+                  onClick={() => setMenuOpen(false)}
+                  className="w-full text-center cursor-pointer border-2 border-[#1CBCCF] text-[#1CBCCF] hover:bg-[#1CBCCF] hover:text-white transition duration-300 rounded-full px-6 py-3 font-medium"
+                >
+                  REGISTER
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/dashboard"
+                  onClick={() => setMenuOpen(false)}
+                  className="w-full text-center cursor-pointer border-2 border-[#1CBCCF] text-[#1CBCCF] hover:bg-[#1CBCCF] hover:text-white transition duration-300 rounded-full px-6 py-3 font-medium"
+                >
+                  DASHBOARD
+                </Link>
+                <button
+                  onClick={() => {
+                    logout();
+                    setMenuOpen(false);
+                  }}
+                  className="w-full text-center cursor-pointer border-2 border-[#1CBCCF] text-[#1CBCCF] hover:bg-[#1CBCCF] hover:text-white transition duration-300 rounded-full px-6 py-3 font-medium"
+                >
+                  LOGOUT
+                </button>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </header>

@@ -21,7 +21,7 @@ function Hero() {
             <span>LIVE YOUR LIFE</span>
           </div>
           <h1 className="font-bold text-3xl sm:text-5xl lg:text-6xl xl:text-7xl leading-tight">
-            We Care About Your Health
+            Insove
           </h1>
           <p>
             Vitae aliquam vestibulum elit adipiscing massa diam in dignissim.
