@@ -7,6 +7,8 @@ export default function ClinicUsersPage() {
   const [usersList, setUsersList] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedRole, setSelectedRole] = useState("All");
+  const [statusFilter, setStatusFilter] = useState("All");
+
   const [page, setPage] = useState(1);
   const [selectedUser, setSelectedUser] = useState(null);
   const [editUser, setEditUser] = useState(null);
@@ -46,7 +48,7 @@ export default function ClinicUsersPage() {
             role: u.usertype,
             phone: "—",
             image: `https://placehold.co/80?text=${u.fullname[0] || "U"}`,
-            isActive: true,
+            isActive: u.status === "active",
           })) || [];
 
         setUsersList(formatted);
@@ -56,8 +58,15 @@ export default function ClinicUsersPage() {
     };
 
     fetchUsers();
+    const urlParams = new URLSearchParams(window.location.search);
+    const savedPage = Number(urlParams.get("page"));
+    if (savedPage) setPage(savedPage);
   }, []);
-
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    urlParams.set("page", page);
+    window.history.replaceState(null, "", "?" + urlParams.toString());
+  }, [page]);
   const roles = ["All", ...new Set(usersList.map((u) => u.role))];
 
   const filteredUsers = usersList.filter((user) => {
@@ -65,7 +74,12 @@ export default function ClinicUsersPage() {
     const matchesSearch = user.name
       .toLowerCase()
       .includes(searchTerm.trim().toLowerCase());
-    return matchesRole && matchesSearch;
+    const matchesStatus =
+      statusFilter === "All" ||
+      (statusFilter === "Active" && user.isActive) ||
+      (statusFilter === "Inactive" && !user.isActive);
+
+    return matchesRole && matchesSearch && matchesStatus;
   });
 
   const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
@@ -75,11 +89,33 @@ export default function ClinicUsersPage() {
   );
 
   const handleToggleActive = async (userId, currentStatus) => {
-    setUsersList((prevUsers) =>
-      prevUsers.map((user) =>
-        user.id === userId ? { ...user, isActive: !currentStatus } : user
-      )
-    );
+    const endpoint =
+      API_BASE_URL +
+      `/clinicmanagement/${
+        currentStatus ? "deactivate" : "activate"
+      }-user?userId=${userId}`;
+
+    try {
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${TOKEN}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (res.ok) {
+        setUsersList((prevUsers) =>
+          prevUsers.map((user) =>
+            user.id === userId ? { ...user, isActive: !currentStatus } : user
+          )
+        );
+      } else {
+        console.error("Failed to toggle user status");
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const handleResetPassword = async (userId) => {
@@ -133,12 +169,11 @@ export default function ClinicUsersPage() {
     setEditUser(null);
     setResetPasswordMode(false);
   };
-
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <h1 className="text-3xl font-bold text-gray-800 mb-6">Clinic Users</h1>
 
-      <div className="flex flex-col md:flex-row gap-4 mb-6">
+      <div className="flex flex-col md:flex-row gap-4 mb-6 flex-wrap">
         <div className="relative w-full md:w-1/2">
           <input
             type="text"
@@ -153,7 +188,24 @@ export default function ClinicUsersPage() {
           />
           <FaSearch className="absolute left-3 top-2.5 text-gray-400" />
         </div>
-
+        <div className="flex gap-3 mb-4 flex-wrap">
+          {["All", "Active", "Inactive"].map((tab) => (
+            <button
+              key={tab}
+              onClick={() => {
+                setStatusFilter(tab);
+                setPage(1);
+              }}
+              className={`px-4 py-2 rounded-lg border ${
+                statusFilter === tab
+                  ? "bg-blue-500 text-white"
+                  : "bg-white text-gray-700 hover:bg-gray-100"
+              }`}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
         <select
           value={selectedRole}
           onChange={(e) => {
@@ -170,84 +222,89 @@ export default function ClinicUsersPage() {
         </select>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {paginatedUsers.map((user) => (
-          <div
-            key={user.id}
-            className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow relative"
-          >
-            <div className="absolute top-4 right-4">
-              <div
-                className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                  user.isActive
-                    ? "bg-green-200 text-green-700 border border-green-300"
-                    : "bg-red-200 text-red-700 border border-red-300"
-                }`}
-              >
-                {user.isActive ? "Active" : "Inactive"}
-              </div>
-            </div>
-
-            {/* User Information */}
-            <div className="flex flex-col items-center text-center">
-              <img
-                src={user.image}
-                alt={user.name}
-                className="rounded-full w-16 h-16 border-2 border-gray-300 mb-3"
-              />
-              <h3 className="text-lg font-semibold text-gray-800">
-                {user.name}
-              </h3>
-              <p className="text-gray-600 text-sm">{user.role}</p>
-              <p className="text-gray-500 text-sm mt-1">{user.email}</p>
-            </div>
-
-            {/* ACTION BUTTONS SECTION */}
-            <div className="flex flex-col gap-2 mt-4 flex-wrap">
-              {/* EDIT and DETAILS buttons - First row */}
-              <div className="flex gap-2">
-                {/* EDIT BUTTON - Opens edit modal */}
-                <button
-                  className="flex-1 px-4 py-2 rounded-lg border border-blue-500 text-blue-600 hover:bg-blue-50 text-sm font-medium"
-                  onClick={() => {
-                    setEditUser(user);
-                    setEditForm({
-                      name: user.name,
-                      role: user.role,
-                      email: user.email,
-                      phone: user.phone,
-                    });
-                    setResetPasswordMode(false);
-                  }}
+      {paginatedUsers.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {paginatedUsers.map((user) => (
+            <div
+              key={user.id}
+              className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow relative"
+            >
+              <div className="absolute top-4 right-4">
+                <div
+                  className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                    user.isActive
+                      ? "bg-green-200 text-green-700 border border-green-300"
+                      : "bg-red-200 text-red-700 border border-red-300"
+                  }`}
                 >
-                  Edit
-                </button>
-
-                {/* DETAILS BUTTON  */}
-                <button
-                  className="flex-1 px-4 py-2 rounded-lg border border-gray-500 text-gray-600 hover:bg-gray-50 text-sm font-medium"
-                  onClick={() => setSelectedUser(user)}
-                >
-                  Details
-                </button>
+                  {user.isActive ? "Active" : "Inactive"}
+                </div>
               </div>
 
-              {/* ACTIVATE/DEACTIVATE BUTTON */}
-              <button
-                onClick={() => handleToggleActive(user.id, user.isActive)}
-                className={`w-full px-4 py-2 rounded-lg text-sm font-medium ${
-                  user.isActive
-                    ? "bg-red-600 text-white border border-red-200 hover:bg-red-700"
-                    : "bg-green-600 text-white border border-green-200 hover:bg-green-700"
-                }`}
-              >
-                {user.isActive ? "Deactivate" : "Activate"}
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
+              {/* User Information */}
+              <div className="flex flex-col items-center text-center">
+                <img
+                  src={user.image}
+                  alt={user.name}
+                  className="rounded-full w-16 h-16 border-2 border-gray-300 mb-3"
+                />
+                <h3 className="text-lg font-semibold text-gray-800">
+                  {user.name}
+                </h3>
+                <p className="text-gray-600 text-sm">{user.role}</p>
+                <p className="text-gray-500 text-sm mt-1">{user.email}</p>
+              </div>
 
+              {/* ACTION BUTTONS SECTION */}
+              <div className="flex flex-col gap-2 mt-4 flex-wrap">
+                {/* EDIT and DETAILS buttons - First row */}
+                <div className="flex gap-2">
+                  {/* EDIT BUTTON - Opens edit modal */}
+                  <button
+                    className="flex-1 px-4 py-2 rounded-lg border border-blue-500 text-blue-600 hover:bg-blue-50 text-sm font-medium"
+                    onClick={() => {
+                      setEditUser(user);
+                      setEditForm({
+                        name: user.name,
+                        role: user.role,
+                        email: user.email,
+                        phone: user.phone,
+                      });
+                      setResetPasswordMode(false);
+                    }}
+                  >
+                    Edit
+                  </button>
+
+                  {/* DETAILS BUTTON  */}
+                  <button
+                    className="flex-1 px-4 py-2 rounded-lg border border-gray-500 text-gray-600 hover:bg-gray-50 text-sm font-medium"
+                    onClick={() => setSelectedUser(user)}
+                  >
+                    Details
+                  </button>
+                </div>
+
+                {/* ACTIVATE/DEACTIVATE BUTTON */}
+                <button
+                  onClick={() => handleToggleActive(user.id, user.isActive)}
+                  className={`w-full px-4 py-2 rounded-lg text-sm font-medium ${
+                    user.isActive
+                      ? "bg-red-600 text-white border border-red-200 hover:bg-red-700"
+                      : "bg-green-600 text-white border border-green-200 hover:bg-green-700"
+                  }`}
+                >
+                  {user.isActive ? "Deactivate" : "Activate"}
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p className="text-center text-gray-500 text-lg mt-10">
+          No Users found.
+        </p>
+      )}
       {/* Pagination Controls */}
       <div className="flex justify-center mt-8 gap-2">
         <button
