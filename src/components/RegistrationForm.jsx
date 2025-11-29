@@ -60,9 +60,10 @@ function RegistrationForm() {
     if (!phoneRegex.test(formInputs.phonenumber))
       newErrors.phonenumber =
         "Phone must be 11 digits and start with 010, 011, 012, or 015";
-    if (formInputs.password.length < 6)
-      newErrors.password = "Password must be at least 6 characters";
-    if (!formInputs.confirmPassword)
+    if (!formInputs.name.trim()) newErrors.password = "Password is required";
+    else if (formInputs.password.trim().length < 8)
+      newErrors.password = "Password must be at least 8 characters";
+    if (!formInputs.confirmPassword.trim())
       newErrors.confirmPassword = "Please confirm your password";
     else if (formInputs.password !== formInputs.confirmPassword)
       newErrors.confirmPassword = "Passwords do not match";
