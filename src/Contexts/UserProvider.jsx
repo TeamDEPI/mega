@@ -80,7 +80,7 @@ export const UserProvider = ({ children }) => {
     });
 
     const data = await res.json();
-    if (res.status !== 200) throw new Error(data.message);
+    if (res.status !== 201) throw new Error(data.message);
     return data.message;
   };
   const verifyEmail = async (email, otp) => {
@@ -90,7 +90,7 @@ export const UserProvider = ({ children }) => {
       body: JSON.stringify({ email, otp }),
     });
     const data = await res.json();
-    if (data.statusCode !== 200) throw new Error(data.message);
+    if (data.statusCode !== 201) throw new Error(data.message);
     return data.message;
   };
 
