@@ -1,0 +1,14 @@
+.width-container {
+  width: 90% !important;
+  margin-right: auto;
+  margin-left: auto;
+}
+.btn-background {
+  background-color: #eaf0f7;
+}
+
+.input-icon {
+  position: absolute;
+  z-index: 5 !important;
+  pointer-events: auto;
+}

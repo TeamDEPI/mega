@@ -1,0 +1,102 @@
+import { MdDashboard } from "react-icons/md";
+import { FaUserMd, FaCalendarAlt, FaClinicMedical } from "react-icons/fa";
+import { IoSettingsOutline } from "react-icons/io5";
+
+export const dashboardRoutes = [
+  {
+    name: "Dashboard",
+    icon: <MdDashboard className="w-5 h-5" />,
+    path: "/dashboard/",
+    roles: [
+      "SystemAdmin",
+      "ClinicAdmin",
+      "ClincDoctor",
+      "ClinicReceptionist",
+      "User",
+    ],
+    element: "MainContent",
+  },
+  {
+    name: "Clinic Requests",
+    icon: <FaUserMd className="w-5 h-5" />,
+    path: "/dashboard/clinic-requests",
+    roles: ["SystemAdmin"],
+    element: "ClinicRequests",
+  },
+  {
+    name: "Clinics",
+    icon: <FaUserMd className="w-5 h-5" />,
+    path: "/dashboard/clinics",
+    roles: ["SystemAdmin"],
+    element: "Clinics",
+  },
+  {
+    name: "Clinic Users",
+    icon: <FaUserMd className="w-5 h-5" />,
+    path: "/dashboard/clinic-users",
+    roles: ["ClinicAdmin"],
+    element: "ClinicUsers",
+  },
+  {
+    name: "Add Doctor",
+    icon: <FaUserMd className="w-5 h-5" />,
+    path: "/dashboard/create-doctor-account",
+    roles: ["ClinicAdmin"],
+    element: "CreateDoctorAccount",
+  },
+  {
+    name: "Clinic Doctors",
+    icon: <FaUserMd className="w-5 h-5" />,
+    path: "/dashboard/clinic-doctors",
+    roles: ["ClinicAdmin"],
+    element: "ClinicDoctors",
+  },
+  {
+    name: "Doctor Schedules",
+    icon: <FaCalendarAlt className="w-5 h-5" />,
+    path: "/dashboard/doctor-schedules",
+    roles: ["ClinicAdmin"],
+    element: "DoctorSchedules",
+  },
+  {
+    name: "Clinic Configuration",
+    icon: <FaClinicMedical className="w-5 h-5" />,
+    path: "/dashboard/clinic-settings",
+    roles: ["ClinicAdmin"],
+    element: "ConfigPage",
+  },
+  {
+    name: "Clinic admins",
+    icon: <FaClinicMedical className="w-5 h-5" />,
+    path: "/dashboard/clinics/:id/admins",
+    roles: ["SystemAdmin"],
+    element: "ClinicAdminPage",
+    sidebar: false,
+  },
+  {
+    name: "Change Password",
+    icon: <IoSettingsOutline className="w-5 h-5" />,
+    path: "/dashboard/change-password",
+    roles: [
+      "SystemAdmin",
+      "ClinicAdmin",
+      "ClincDoctor",
+      "ClinicReceptionist",
+      "User",
+    ],
+    element: "ChangePassword",
+  },
+  {
+    name: "2FA Settings",
+    icon: <IoSettingsOutline className="w-5 h-5" />,
+    path: "/dashboard/2fa",
+    roles: [
+      "SystemAdmin",
+      "ClinicAdmin",
+      "ClincDoctor",
+      "ClinicReceptionist",
+      "User",
+    ],
+    element: "TwoFactorAuth",
+  },
+];

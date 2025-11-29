@@ -1,0 +1,168 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px 5%;
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+}
+
+.logo {
+  font-size: 30px;
+  font-weight: 850;
+  display: flex;
+  align-items: center;
+  color: #4a90e2;
+}
+
+.logo img {
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.navbar a {
+  position: relative;
+  font-size: 18px;
+  font-weight: 450;
+  color: rgb(58, 60, 61);
+}
+
+.navbar a::before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  background-color: rgb(63, 67, 70);
+  bottom: -5px;
+  left: 0;
+  transition: 0.4s ease;
+}
+
+.navbar a:hover::before {
+  width: 100%;
+}
+
+.auth-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.sign-in-link {
+  text-decoration: none;
+  color: #4a90e2;
+  font-size: 18px;
+  font-weight: 800;
+  position: relative;
+}
+
+.sign-in-link::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background-color: #4a90e2;
+  width: 40%;
+  transition: width 0.4s ease, background 0.4s ease;
+}
+
+.sign-in-link:hover::before {
+  width: 100%;
+  background: linear-gradient(to right, #6d9eeb, #3b6bb8);
+}
+
+.register-button {
+  background: linear-gradient(to bottom, #458ff6, #4772c5);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+  white-space: nowrap;
+}
+
+.mobile-menu-toggle {
+  display: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #3b6bb8;
+}
+
+@media (max-width: 1300px) {
+  .navbar {
+    gap: 20px;
+  }
+  .navbar a {
+    font-size: 16px;
+  }
+  .logo {
+    font-size: 24px;
+  }
+  .auth-actions {
+    gap: 15px;
+  }
+  .register-button {
+    padding: 8px 16px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .navbar,
+  .auth-actions {
+    display: none;
+  }
+
+  .mobile-menu-toggle {
+    display: block;
+  }
+  .logo {
+    font-size: 20px;
+    font-weight: 800;
+  }
+
+  .logo img {
+    height: 40px !important;
+    width: 45px !important;
+    margin-right: 10px !important;
+  }
+
+  .navbar.active {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px 0;
+    text-align: center;
+    border-top: 1px solid #eee;
+    z-index: 999;
+  }
+
+  .navbar a {
+    margin: 10px 0;
+    font-size: 20px;
+    padding: 10px 0;
+    width: 100%;
+    color: #3b6bb8;
+  }
+}
