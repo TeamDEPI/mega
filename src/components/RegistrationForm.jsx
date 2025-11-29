@@ -45,35 +45,30 @@ function RegistrationForm() {
     }));
   };
 
-  const emailRegex = /^\S+@\S+\.\S+$/;
-
+  const nameRegex = /^[A-Za-z][A-Za-z\s]*$/;
+  const emailRegex =
+    /^[^\s@]+@(gmail\.com|yahoo\.com|hotmail\.com|outlook\.com)$/i;
+  const phoneRegex = /^(010|011|012|015)[0-9]{8}$/;
   const validateForm = () => {
     const newErrors = {};
-
     if (!formInputs.name.trim()) newErrors.name = "Name is required";
-
+    else if (!nameRegex.test(formInputs.name))
+      newErrors.name =
+        "Name must contain letters only and cannot start with space";
     if (!emailRegex.test(formInputs.email))
-      newErrors.email = "Enter a valid email";
-    if (!formInputs.phone.trim()) newErrors.phone = "Phone number is required";
-    else if (!/^\d{8,15}$/.test(formInputs.phone))
-      newErrors.phone = "Phone must be 8-15 digits";
+      newErrors.email = "Email must be a valid Gmail/Yahoo/Outlook/Hotmail";
+    if (!phoneRegex.test(formInputs.phone))
+      newErrors.phone =
+        "Phone must be 11 digits and start with 010, 011, 012, or 015";
     if (formInputs.password.length < 6)
       newErrors.password = "Password must be at least 6 characters";
-
     if (!formInputs.confirmPassword)
       newErrors.confirmPassword = "Please confirm your password";
-
-    if (
-      formInputs.password !== formInputs.confirmPassword &&
-      formInputs.confirmPassword
-    )
+    else if (formInputs.password !== formInputs.confirmPassword)
       newErrors.confirmPassword = "Passwords do not match";
-
     setErrors(newErrors);
-
     return Object.keys(newErrors).length === 0;
   };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -93,9 +88,19 @@ function RegistrationForm() {
     const value = formInputs[field]?.trim();
     if (!value) return false;
 
-    if (field === "email") return emailRegex.test(value);
+    switch (field) {
+      case "name":
+        return nameRegex.test(value);
 
-    return true;
+      case "email":
+        return emailRegex.test(value);
+
+      case "phone":
+        return phoneRegex.test(value);
+
+      default:
+        return true;
+    }
   };
 
   return (
