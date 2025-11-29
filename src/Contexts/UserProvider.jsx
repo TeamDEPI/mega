@@ -72,15 +72,15 @@ export const UserProvider = ({ children }) => {
     }
   };
 
-  const register = async (fullname, email, password) => {
+  const register = async (fullname, email, password, phonenumber) => {
     const res = await fetch(`${BASE_URL}/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json", "Accept-Language": "en" },
-      body: JSON.stringify({ fullname, email, password }),
+      body: JSON.stringify({ fullname, email, password, phonenumber }),
     });
 
     const data = await res.json();
-    if (data.statusCode !== 200) throw new Error(data.message);
+    if (res.status !== 200) throw new Error(data.message);
     return data.message;
   };
   const verifyEmail = async (email, otp) => {

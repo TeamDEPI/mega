@@ -24,7 +24,7 @@ function RegistrationForm() {
   const [formInputs, setFormInputs] = useState({
     name: "",
     email: "",
-    phone: "",
+    phonenumber: "",
     password: "",
     confirmPassword: "",
   });
@@ -57,8 +57,8 @@ function RegistrationForm() {
         "Name must contain letters only and cannot start with space";
     if (!emailRegex.test(formInputs.email))
       newErrors.email = "Email must be a valid Gmail/Yahoo/Outlook/Hotmail";
-    if (!phoneRegex.test(formInputs.phone))
-      newErrors.phone =
+    if (!phoneRegex.test(formInputs.phonenumber))
+      newErrors.phonenumber =
         "Phone must be 11 digits and start with 010, 011, 012, or 015";
     if (formInputs.password.length < 6)
       newErrors.password = "Password must be at least 6 characters";
@@ -75,7 +75,12 @@ function RegistrationForm() {
     if (!validateForm()) return;
 
     try {
-      await register(formInputs.name, formInputs.email, formInputs.password);
+      await register(
+        formInputs.name,
+        formInputs.email,
+        formInputs.password,
+        formInputs.phonenumber
+      );
       setShowOtpModal(true);
     } catch (err) {
       alert(err.message);
@@ -95,7 +100,7 @@ function RegistrationForm() {
       case "email":
         return emailRegex.test(value);
 
-      case "phone":
+      case "phonenumber":
         return phoneRegex.test(value);
 
       default:
@@ -189,14 +194,14 @@ function RegistrationForm() {
           <div className="input-group mb-1 mt-3 form-group position-relative">
             <input
               type="text"
-              name="phone"
+              name="phonenumber"
               placeholder="Enter Phone Number"
               className="form-control rounded-3 pe-5 py-3 btn-background shadow-sm"
-              value={formInputs.phone}
+              value={formInputs.phonenumber}
               onChange={handleChange}
             />
 
-            {isValid("phone") && (
+            {isValid("phonenumber") && (
               <FaCheckCircle
                 className="position-absolute end-0 me-3 text-success input-icon"
                 style={{ top: "50%", transform: "translateY(-50%)" }}
@@ -204,8 +209,8 @@ function RegistrationForm() {
             )}
           </div>
 
-          {errors.phone && (
-            <small className="text-danger">{errors.phone}</small>
+          {errors.phonenumber && (
+            <small className="text-danger">{errors.phonenumber}</small>
           )}
           {/* PASSWORD */}
           <div className="input-group mb-1 mt-3 form-group position-relative">
