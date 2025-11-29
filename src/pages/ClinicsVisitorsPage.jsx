@@ -27,7 +27,7 @@ export default function ClinicsVisitorsPage() {
     }`;
     const res = await fetch(url);
     const data = await res.json();
-    setClinics(data?.value || []);
+    setClinics(data?.list || []);
   };
 
   useEffect(() => {
