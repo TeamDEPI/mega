@@ -58,7 +58,7 @@ function ClinicRegistration() {
   const noSpecialsNoNumbers = /^[A-Za-z\s]+$/;
   const noLeadingSpace = /^[^\s].*$/;
   const locationRegex = /^[A-Za-z0-9\s]+$/;
-  const phoneRegex = /^[0-9]{11}$/;
+  const phoneRegex = /^(010|011|012|015)[0-9]{8}$/;
   const validate = () => {
     let newErrors = {};
 
