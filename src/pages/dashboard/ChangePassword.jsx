@@ -19,19 +19,21 @@ const ChangePasswordPage = () => {
     new: false,
     confirm: false,
   });
+  const passwordRegex =
+    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
 
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
   const validateForm = () => {
     const newErrors = {};
-
     if (!formData.currentPassword.trim()) {
       newErrors.currentPassword = "Current password is required.";
     }
-
-    if (formData.newPassword.length < 6) {
+    if (formData.newPassword.trim().length < 6) {
       newErrors.newPassword = "Password must be at least 6 characters.";
+    } else if (!passwordRegex.test(formData.newPassword.trim())) {
+      newErrors.newPassword = "Must contain letters, numbers & symbols.";
     }
 
     if (formData.newPassword === formData.currentPassword) {
@@ -219,13 +221,6 @@ const ChangePasswordPage = () => {
               className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg font-medium transition-colors duration-200 text-base disabled:opacity-50"
             >
               {loading ? "Updating..." : "Update Password"}
-            </button>
-
-            <button
-              type="button"
-              className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200 text-base sm:flex-none sm:w-auto w-full"
-            >
-              Cancel
             </button>
           </div>
         </form>
