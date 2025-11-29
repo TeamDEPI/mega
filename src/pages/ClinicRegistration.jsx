@@ -98,7 +98,8 @@ function ClinicRegistration() {
         "Address can contain letters, numbers, and spaces only.";
 
     if (!phoneRegex.test(formInputs.phone))
-      newErrors.phone = "Phone must be exactly 11 digits.";
+      newErrors.phone =
+        "Phone must be 11 digits and start with 010, 011, 012, or 015";
 
     if (!formInputs.medicalSpecialtyId)
       newErrors.medicalSpecialtyId = "Select a medical specialty.";
