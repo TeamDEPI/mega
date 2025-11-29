@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useContext } from "react";
 import OtpModal from "../../components/OtpModal";
 import { UserContext } from "../../Contexts/UserContext";
@@ -14,7 +15,6 @@ const TwoFactorAuth = () => {
   const [showOtpModal, setShowOtpModal] = useState(false);
 
   const token = localStorage.getItem("token");
-  console.log(user);
   useEffect(() => {
     try {
       setIs2FAEnabled(user._2fa);

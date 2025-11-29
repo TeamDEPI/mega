@@ -61,7 +61,6 @@ const CreateDoctorAccount = () => {
       Doctor: "ClinicDoctor",
       Receptionist: "ClinicReceptionist",
     };
-    console.log(typeMap[formData.userType], formData.userType);
     const payload = {
       email: formData.email,
       password: formData.password,

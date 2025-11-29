@@ -16,7 +16,6 @@ const Sidebar = ({ className = "" }) => {
     (route) => route.roles.includes(user.usertype) && route.sidebar !== false
   );
   const handleLogout = async () => {
-    console.log("Logging out...");
     await logout();
     localStorage.removeItem("token");
     navigate("/login");

@@ -76,7 +76,6 @@ function ForgetPassword() {
     setFormInputs((prev) => ({ ...prev, otp: otpCode }));
     setOtpModal(false);
     let data = await verifyForgetOtp(formInputs.email, otpCode);
-    console.log(data);
     if (!data.success) {
       alert(data.message);
       return;

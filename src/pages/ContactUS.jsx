@@ -11,7 +11,6 @@ export default function Contactus() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
   };
 
   const handleChange = (e) => {

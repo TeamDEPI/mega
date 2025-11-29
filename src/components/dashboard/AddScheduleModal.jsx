@@ -58,7 +58,6 @@ const AddScheduleModal = ({ doctors, onClose, onSave, loading }) => {
     };
 
     try {
-      console.log("📤 Sending to Create Schedule API:", apiPayload);
       onSave(apiPayload);
       onClose();
     } catch (err) {
