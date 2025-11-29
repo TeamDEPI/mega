@@ -51,12 +51,19 @@ function RegistrationForm() {
   const phoneRegex = /^(010|011|012|015)[0-9]{8}$/;
   const validateForm = () => {
     const newErrors = {};
-    if (!formInputs.name.trim()) newErrors.name = "Name is required";
-    else if (!nameRegex.test(formInputs.name))
-      newErrors.name =
-        "Name must contain letters only and cannot start with space";
+    if (!formInputs.name.trim()) {
+      newErrors.name = "Name is required";
+    } else if (formInputs.name.startsWith(" ")) {
+      newErrors.name = "Name cannot start with a space";
+    } else if (!/^[A-Za-z\s]+$/.test(formInputs.name)) {
+      newErrors.name = "Name must contain letters only";
+    } else if (formInputs.name.length < 3) {
+      newErrors.name = "Name must be at least 3 characters";
+    }
+
     if (!emailRegex.test(formInputs.email))
       newErrors.email = "Email must be a valid Gmail/Yahoo/Outlook/Hotmail";
+
     if (!phoneRegex.test(formInputs.phonenumber))
       newErrors.phonenumber =
         "Phone must be 11 digits and start with 010, 011, 012, or 015";
