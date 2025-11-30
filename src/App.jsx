@@ -1,7 +1,6 @@
 import Landing from "./pages/Landing";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Dashboardlayout from "./layouts/DashboardLayout";
-import MainContent from "./pages/dashboard/MainContent";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import PublicLayout from "./layouts/PublicLayout";
@@ -9,14 +8,7 @@ import { UserContext } from "./Contexts/UserContext";
 import React, { useContext } from "react";
 import ForgetPassword from "./pages/ForgetPassword";
 import ClinicRegistration from "./pages/ClinicRegistration";
-import ChangePassword from "./pages/dashboard/ChangePassword";
-import ClinicRequests from "./pages/dashboard/ClinicRequests";
-import ClinicDoctors from "./pages/dashboard/ClinicDoctors";
-import CreateDoctorAccount from "./pages/dashboard/CreateDoctorAccount";
-import ClinicsPage from "./pages/dashboard/ClinicsPage";
-import ClinicUsersPage from "./pages/dashboard/ClinicUsers";
 import ChatWidget from "./components/Chatbot";
-import DoctorSchedules from "./pages/dashboard/DoctorSchedules";
 import { dashboardRoutes } from "./config/routesConfig";
 import { componentsMap } from "./componentsMap";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -54,13 +46,79 @@ function App() {
             }
           />
         </Route>
+        {/* <Route
+            path="/dashboard"
+            element={<Dashboardlayout user={user} loading={loading} />}
+          >
+            {dashboardRoutes
+              // .filter((c) => c.roles.includes(user?.usertype))
+              .map((route) => (
+                <Route
+                  key={route.path}
+                  element={
+                    <ProtectedRoute allowedRoles={route.roles} user={user} />
+                  }
+                >
+                  <Route
+                    index={
+                      route.path === "/dashboard/" || route.path === "/dashboard"
+                    }
+                    path={route.path.replace("/dashboard/", "")}
+                    element={React.createElement(componentsMap[route.element])}
+                  />
+                </Route>
+              ))}
+          </Route> */}
         <Route
           path="/dashboard"
           element={<Dashboardlayout user={user} loading={loading} />}
         >
-          {dashboardRoutes
-            // .filter((c) => c.roles.includes(user?.usertype))
-            .map((route) => (
+          {dashboardRoutes.map((route) => {
+            const isRoleObjects = typeof route.roles[0] === "object";
+
+            if (isRoleObjects) {
+              const matched = route.roles.find(
+                (r) => r.role === user?.usertype
+              );
+
+              // (1) لو ده هو الـ Dashboard Home → path = "/dashboard/"
+              const isDashboardHome = route.path === "/dashboard/";
+
+              if (isDashboardHome) {
+                return (
+                  <Route
+                    index
+                    key="dashboard-home"
+                    element={React.createElement(
+                      componentsMap[matched?.element]
+                    )}
+                  />
+                );
+              }
+
+              // (2) لو ده Route تاني (زي appointments)
+              return (
+                <Route
+                  key={route.path}
+                  element={
+                    <ProtectedRoute
+                      allowedRoles={route.roles.map((r) => r.role)}
+                      user={user}
+                    />
+                  }
+                >
+                  <Route
+                    path={route.path.replace("/dashboard/", "")}
+                    element={React.createElement(
+                      componentsMap[matched?.element]
+                    )}
+                  />
+                </Route>
+              );
+            }
+
+            // ---- الحالة العادية (roles = array of strings) ----
+            return (
               <Route
                 key={route.path}
                 element={
@@ -68,14 +126,12 @@ function App() {
                 }
               >
                 <Route
-                  index={
-                    route.path === "/dashboard/" || route.path === "/dashboard"
-                  }
                   path={route.path.replace("/dashboard/", "")}
                   element={React.createElement(componentsMap[route.element])}
                 />
               </Route>
-            ))}
+            );
+          })}
         </Route>
         <Route path="*" element={<h1>Error</h1>} />
       </Routes>

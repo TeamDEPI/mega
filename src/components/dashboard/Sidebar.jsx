@@ -12,9 +12,17 @@ const Sidebar = ({ className = "" }) => {
 
   const navigate = useNavigate();
 
-  const menuItems = dashboardRoutes.filter(
-    (route) => route.roles.includes(user.usertype) && route.sidebar !== false
-  );
+  const menuItems = dashboardRoutes.filter((route) => {
+    const isRoleObjects = typeof route.roles[0] === "object";
+
+    if (isRoleObjects)
+      return (
+        route.roles.some((r) => r.role === user.usertype) &&
+        route.sidebar !== false
+      );
+
+    return route.roles.includes(user.usertype) && route.sidebar !== false;
+  });
   const handleLogout = async () => {
     await logout();
     localStorage.removeItem("token");

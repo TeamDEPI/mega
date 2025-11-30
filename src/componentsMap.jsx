@@ -12,6 +12,10 @@ import ClinicAdminPage from "./pages/dashboard/ClinicAdminPage";
 import EditUserPage from "./pages/dashboard/EditUserPage";
 import DoctorAppointmentsPage from "./pages/dashboard/DoctorAppointmentsPage";
 import ReceptionDoctorsPage from "./pages/dashboard/ReceptionDoctorsPage";
+import PatientAppointments from "./pages/dashboard/PatientAppointments";
+import DoctorDashboard from "./pages/dashboard/DoctorDashboard";
+import ReceptionAppointments from "./pages/dashboard/ReceptionAppointments";
+import ClinicDashboard from "./pages/dashboard/ClinicDasboard";
 
 export const componentsMap = {
   MainContent,
@@ -28,4 +32,8 @@ export const componentsMap = {
   EditUserPage,
   DoctorAppointmentsPage,
   ReceptionDoctorsPage,
+  PatientAppointments,
+  DoctorDashboard,
+  ReceptionAppointments,
+  ClinicDashboard,
 };

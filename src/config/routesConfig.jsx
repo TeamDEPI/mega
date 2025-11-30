@@ -5,16 +5,31 @@ import { IoSettingsOutline } from "react-icons/io5";
 export const dashboardRoutes = [
   {
     name: "Dashboard",
-    icon: <MdDashboard className="w-5 h-5" />,
+    icon: <IoSettingsOutline className="w-5 h-5" />,
     path: "/dashboard/",
     roles: [
-      "SystemAdmin",
-      "ClinicAdmin",
-      "ClinicDoctor",
-      "ClinicReceptionist",
-      "User",
+      {
+        role: "ClinicDoctor",
+        element: "DoctorDashboard",
+      },
+      {
+        role: "SystemAdmin",
+        element: "MainContent",
+      },
+      {
+        role: "ClinicAdmin",
+        element: "ClinicDashboard",
+      },
+      {
+        role: "ClinicReceptionist",
+        element: "ClinicDashboard",
+      },
+      {
+        role: "User",
+        element: "PatientAppointments",
+      },
     ],
-    element: "MainContent",
+    element: "DoctorDashboard",
   },
   {
     name: "Clinic Requests",
@@ -112,18 +127,33 @@ export const dashboardRoutes = [
     ],
     element: "EditUserPage",
   },
-  {
-    name: "Appointments",
-    icon: <IoSettingsOutline className="w-5 h-5" />,
-    path: "/dashboard/doctor-appointments",
-    roles: ["ClinicDoctor"],
-    element: "DoctorAppointmentsPage",
-  },
+
   {
     name: "Doctors",
     icon: <IoSettingsOutline className="w-5 h-5" />,
     path: "/dashboard/doctors",
     roles: ["ClinicReceptionist"],
     element: "ReceptionDoctorsPage",
+  },
+
+  {
+    name: "Appointments",
+    icon: <IoSettingsOutline className="w-5 h-5" />,
+    path: "/dashboard/appointments",
+    roles: [
+      {
+        role: "ClinicDoctor",
+        element: "DoctorAppointmentsPage",
+      },
+      // {
+      //   role: "User",
+      //   element: "PatientAppointments",
+      // },
+      {
+        role: "ClinicReceptionist",
+        element: "ReceptionAppointments",
+      },
+    ],
+    // element: "DoctorAppointmentsPage",
   },
 ];
