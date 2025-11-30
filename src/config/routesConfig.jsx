@@ -99,4 +99,31 @@ export const dashboardRoutes = [
     ],
     element: "TwoFactorAuth",
   },
+  {
+    name: "Edit Profile",
+    icon: <IoSettingsOutline className="w-5 h-5" />,
+    path: "/dashboard/edit",
+    roles: [
+      "SystemAdmin",
+      "ClinicAdmin",
+      "ClinicDoctor",
+      "ClinicReceptionist",
+      "User",
+    ],
+    element: "EditUserPage",
+  },
+  {
+    name: "Appointments",
+    icon: <IoSettingsOutline className="w-5 h-5" />,
+    path: "/dashboard/doctor-appointments",
+    roles: ["ClinicDoctor"],
+    element: "DoctorAppointmentsPage",
+  },
+  {
+    name: "Doctors",
+    icon: <IoSettingsOutline className="w-5 h-5" />,
+    path: "/dashboard/doctors",
+    roles: ["ClinicReceptionist"],
+    element: "ReceptionDoctorsPage",
+  },
 ];

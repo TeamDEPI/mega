@@ -9,6 +9,9 @@ import DoctorSchedules from "./pages/dashboard/DoctorSchedules";
 import TwoFactorAuth from "./pages/dashboard/TwoFactorAuth";
 import ConfigPage from "./pages/dashboard/ClinicConfiguration";
 import ClinicAdminPage from "./pages/dashboard/ClinicAdminPage";
+import EditUserPage from "./pages/dashboard/EditUserPage";
+import DoctorAppointmentsPage from "./pages/dashboard/DoctorAppointmentsPage";
+import ReceptionDoctorsPage from "./pages/dashboard/ReceptionDoctorsPage";
 
 export const componentsMap = {
   MainContent,
@@ -22,4 +25,7 @@ export const componentsMap = {
   TwoFactorAuth,
   ConfigPage,
   ClinicAdminPage,
+  EditUserPage,
+  DoctorAppointmentsPage,
+  ReceptionDoctorsPage,
 };
