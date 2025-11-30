@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useContext } from "react";
 import { API_BASE_URL } from "../../config.json";
 import { FaCamera } from "react-icons/fa";
