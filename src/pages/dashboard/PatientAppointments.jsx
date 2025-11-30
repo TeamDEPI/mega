@@ -1,6 +1,5 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 
-// Simple Tailwind Button Component
 const Button = ({ children, className = "", ...props }) => (
   <button
     className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 bg-blue-600 text-white hover:bg-blue-700 active:scale-95 ${className}`}
@@ -10,51 +9,58 @@ const Button = ({ children, className = "", ...props }) => (
   </button>
 );
 
-// Simple Card wrapper
 const Card = ({ children, className = "" }) => (
   <div className={`bg-white border border-gray-100 ${className}`}>
     {children}
   </div>
 );
+import { API_BASE_URL } from "../../config.json";
 
 const CardContent = ({ children, className = "" }) => (
   <div className={`p-4 ${className}`}>{children}</div>
 );
 
 export default function PatientAppointments() {
-  const [appointments, setAppointments] = useState([
-    {
-      id: 1,
-      type: "coming",
-      clinic: "Zahra Clinic",
-      doctor: "Dr. Ahmed Ali",
-      date: "2025-12-10",
-      time: "3:00 PM",
-      details: "Follow‑up consultation — bring latest test results.",
-    },
-    {
-      id: 2,
-      type: "old",
-      clinic: "Care Plus",
-      doctor: "Dr. Mona Hassan",
-      date: "2025-07-14",
-      time: "11:30 AM",
-      details: "Routine check-up.",
-    },
-    {
-      id: 3,
-      type: "coming",
-      clinic: "Nile Health",
-      doctor: "Dr. Karim Salah",
-      date: "2025-12-22",
-      time: "9:00 AM",
-      details: "Initial consultation — bring medical history.",
-    },
-  ]);
-
-  const [filter, setFilter] = useState("all");
+  const TOKEN = localStorage.getItem("token");
+  const [appointments, setAppointments] = useState([]);
   const [query, setQuery] = useState("");
+  const [filter, setFilter] = useState("all");
   const [openModal, setOpenModal] = useState(null);
+  const [details, setDetails] = useState(null);
+  const [loadingDetails, setLoadingDetails] = useState(false);
+
+  const fetchAppointments = async () => {
+    try {
+      const res = await fetch(
+        `${API_BASE_URL}/Appointments/patient/upcomingappointments`,
+        {
+          headers: {
+            Authorization: `Bearer ${TOKEN}`,
+          },
+        }
+      );
+
+      const data = await res.json();
+      if (data?.value) {
+        const mapped = data.value.map((item) => ({
+          id: item.appointmentid,
+          clinic: item.clinic,
+          doctor: item.doctor,
+          date: item.date,
+          time: `${item.starttime} - ${item.endtime}`,
+          details: item.reason,
+          type: "coming",
+        }));
+        setAppointments(mapped);
+      }
+    } catch (err) {
+      console.log("Error fetching appointments:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchAppointments();
+  }, []);
 
   const filteredAppointments = useMemo(() => {
     return appointments.filter((app) => {
@@ -65,15 +71,29 @@ export default function PatientAppointments() {
         app.clinic.toLowerCase().includes(q) ||
         app.doctor.toLowerCase().includes(q) ||
         app.date.toLowerCase().includes(q) ||
-        (app.time && app.time.toLowerCase().includes(q))
+        app.time.toLowerCase().includes(q)
       );
     });
   }, [appointments, filter, query]);
 
-  const handleCancel = (id) => {
-    setAppointments((prev) =>
-      prev.map((a) => (a.id === id ? { ...a, cancelled: true } : a))
-    );
+  const openDetailsModal = async (id) => {
+    setLoadingDetails(true);
+    setOpenModal(id);
+
+    try {
+      const res = await fetch(`${API_BASE_URL}/Appointments/${id}`, {
+        headers: {
+          Authorization: `Bearer ${TOKEN}`,
+        },
+      });
+
+      const data = await res.json();
+      setDetails(data);
+    } catch (err) {
+      console.log("Error fetching details:", err);
+    } finally {
+      setLoadingDetails(false);
+    }
   };
 
   return (
@@ -154,41 +174,25 @@ export default function PatientAppointments() {
                 <p className="text-sm text-gray-700 mt-1">
                   <strong>Doctor:</strong> {app.doctor}
                 </p>
+
                 <p className="text-sm text-gray-700">
                   <strong>Time:</strong> {app.time}
                 </p>
 
-                <div className="mt-3 text-sm text-gray-600 line-clamp-2">
-                  {app.details}
-                </div>
+                <div className="mt-3 text-sm text-gray-600">{app.details}</div>
               </div>
 
               <div className="flex flex-col items-start sm:items-end gap-2">
                 <button
-                  onClick={() => setOpenModal(app.id)}
+                  onClick={() => openDetailsModal(app.id)}
                   className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-xl text-sm shadow-sm"
                 >
                   More Details
                 </button>
-
-                {app.type === "coming" && !app.cancelled && (
-                  <Button
-                    onClick={() => handleCancel(app.id)}
-                    className="rounded-xl bg-red-500 hover:bg-red-600"
-                  >
-                    Cancel
-                  </Button>
-                )}
-
-                {app.cancelled && (
-                  <span className="text-red-500 text-sm font-medium">
-                    Cancelled
-                  </span>
-                )}
               </div>
             </CardContent>
 
-            {/* ✨ Cute Modal */}
+            {/* Details Modal */}
             {openModal === app.id && (
               <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
                 <div className="bg-white rounded-3xl p-6 w-full max-w-md shadow-2xl relative">
@@ -203,21 +207,33 @@ export default function PatientAppointments() {
                     Appointment Details
                   </h3>
 
-                  <div className="space-y-2 text-sm">
-                    <p>
-                      <strong>Clinic:</strong> {app.clinic}
-                    </p>
-                    <p>
-                      <strong>Doctor:</strong> {app.doctor}
-                    </p>
-                    <p>
-                      <strong>Date:</strong> {app.date}
-                    </p>
-                    <p>
-                      <strong>Time:</strong> {app.time}
-                    </p>
-                    <p className="mt-3 text-gray-700">{app.details}</p>
-                  </div>
+                  {loadingDetails ? (
+                    <p className="text-center text-gray-500">Loading...</p>
+                  ) : (
+                    details && (
+                      <div className="space-y-2 text-sm">
+                        <p>
+                          <strong>Patient:</strong> {details.patientname}
+                        </p>
+                        <p>
+                          <strong>Email:</strong> {details.patientemail}
+                        </p>
+                        <p>
+                          <strong>Phone:</strong> {details.patientphone}
+                        </p>
+                        <p>
+                          <strong>Date:</strong> {details.date}
+                        </p>
+                        <p>
+                          <strong>Start:</strong> {details.starttime}
+                        </p>
+                        <p>
+                          <strong>End:</strong> {details.endtime}
+                        </p>
+                        <p className="mt-3 text-gray-700">{details.reason}</p>
+                      </div>
+                    )
+                  )}
 
                   <div className="flex justify-center mt-6">
                     <button
@@ -233,14 +249,6 @@ export default function PatientAppointments() {
           </Card>
         ))}
       </div>
-
-      {/* Modal Animations */}
-      <style>{`
-        .animate-fadeIn { animation: fadeIn 0.2s ease-out; }
-        .animate-scaleIn { animation: scaleIn 0.25s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes scaleIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-      `}</style>
     </div>
   );
 }
