@@ -95,7 +95,11 @@ export default function PatientAppointments() {
       setLoadingDetails(false);
     }
   };
-
+  const handleCancel = (id) => {
+    setAppointments((prev) =>
+      prev.map((a) => (a.id === id ? { ...a, cancelled: true } : a))
+    );
+  };
   return (
     <div className="p-6 max-w-4xl mx-auto">
       {/* Header */}
@@ -189,6 +193,19 @@ export default function PatientAppointments() {
                 >
                   More Details
                 </button>
+                {app.type === "coming" && !app.cancelled && (
+                  <Button
+                    onClick={() => handleCancel(app.id)}
+                    className="rounded-xl bg-red-500 hover:bg-red-600"
+                  >
+                    Cancel
+                  </Button>
+                )}
+                {app.cancelled && (
+                  <span className="text-red-500 text-sm font-medium">
+                    Cancelled
+                  </span>
+                )}
               </div>
             </CardContent>
 

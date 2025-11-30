@@ -20,8 +20,7 @@ const ChangePasswordPage = () => {
     confirm: false,
   });
   const passwordRegex =
-    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
-
+    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
