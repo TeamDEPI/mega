@@ -7,7 +7,7 @@ Healthcare AI Assistant is a next-generation healthcare web application built us
 The platform provides AI-powered insights, multi-role dashboards, and seamless clinic–patient communication.
 
 🔗 **Live Demo:** https://teamdepi.github.io/mega/  
-📂 **Repository:** *Add your repo link here*
+📂 **Repository:** https://github.com/TeamDEPI/mega/
 
 ---
 
