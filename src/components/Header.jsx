@@ -23,19 +23,19 @@ function Header() {
               <>
                 <Link
                   to="/clinic-register"
-                  className="text-[#1CBCCF] cursor-pointer border-2 border-[#1CBCCF] hover:bg-[#1CBCCF] hover:!text-white transition duration-300 rounded-full px-7 py-2"
+                  className="!text-[#1CBCCF] cursor-pointer border-2 border-[#1CBCCF] hover:bg-[#1CBCCF] hover:!text-white transition duration-300 rounded-full px-7 py-2"
                 >
                   Apply as A clinic
                 </Link>
                 <Link
                   to="/login"
-                  className="text-[#1CBCCF] cursor-pointer border-2 border-[#1CBCCF] hover:bg-[#1CBCCF] hover:!text-white transition duration-300 rounded-full px-7 py-2"
+                  className="!text-[#1CBCCF] cursor-pointer border-2 border-[#1CBCCF] hover:bg-[#1CBCCF] hover:!text-white transition duration-300 rounded-full px-7 py-2"
                 >
                   LOGIN
                 </Link>
                 <Link
                   to="/register"
-                  className="text-[#1CBCCF] cursor-pointer border-2 border-[#1CBCCF] hover:bg-[#1CBCCF] hover:!text-white transition duration-300 rounded-full px-7 py-2"
+                  className="!text-[#1CBCCF] cursor-pointer border-2 border-[#1CBCCF] hover:bg-[#1CBCCF] hover:!text-white transition duration-300 rounded-full px-7 py-2"
                 >
                   REGISTER
                 </Link>
@@ -44,13 +44,13 @@ function Header() {
               <>
                 <Link
                   to="/dashboard"
-                  className="text-[#1CBCCF] cursor-pointer border-2 border-[#1CBCCF] hover:bg-[#1CBCCF] hover:!text-white transition duration-300 rounded-full px-7 py-2"
+                  className="!text-[#1CBCCF] cursor-pointer border-2 border-[#1CBCCF] hover:bg-[#1CBCCF] hover:!text-white transition duration-300 rounded-full px-7 py-2"
                 >
                   DASHBOARD
                 </Link>
                 <Link
                   onClick={logout}
-                  className="text-[#1CBCCF] cursor-pointer border-2 border-[#1CBCCF] hover:bg-[#1CBCCF] hover:!text-white transition duration-300 rounded-full px-7 py-2"
+                  className="!text-[#1CBCCF] cursor-pointer border-2 border-[#1CBCCF] hover:bg-[#1CBCCF] hover:!text-white transition duration-300 rounded-full px-7 py-2"
                 >
                   LOGOUT
                 </Link>
@@ -75,8 +75,8 @@ function Header() {
                 to="/"
                 className={`transition duration-300 ${
                   isActive("/")
-                    ? "text-[#1CBCCF]"
-                    : "text-black hover:text-[#1CBCCF]"
+                    ? "!text-[#1CBCCF]"
+                    : "text-black hover:!text-[#1CBCCF]"
                 } `}
               >
                 Home
@@ -85,8 +85,8 @@ function Header() {
                 to="/clinics"
                 className={`transition duration-300 ${
                   isActive("/clinics")
-                    ? "text-[#1CBCCF]"
-                    : "text-black hover:text-[#1CBCCF]"
+                    ? "!text-[#1CBCCF]"
+                    : "text-black hover:!text-[#1CBCCF]"
                 }`}
               >
                 Clinics
