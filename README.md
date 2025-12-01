@@ -1,5 +1,5 @@
 # 🏥 Healthcare AI Assistant  
-**Smart, AI-Powered Healthcare Platform (React.js + Real Backend API)**
+**Smart, AI-Powered Healthcare Platform (React.js)**
 
 ![Healthcare Dashboard](https://placehold.co/1200x500?text=Healthcare+AI+Assistant)
 
