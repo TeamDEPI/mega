@@ -110,7 +110,6 @@ Everything is synced with backend logic.
 - React.js  
 - React Router  
 - Tailwind CSS  
-- Axios (API integration)  
 - Context API / Hooks  
 - Deployed on GitHub Pages  
 
