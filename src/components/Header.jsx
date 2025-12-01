@@ -23,19 +23,19 @@ function Header() {
               <>
                 <Link
                   to="/clinic-register"
-                  className="cursor-pointer border-2 border-[#1CBCCF] hover:bg-[#d4fbff] transition duration-300 rounded-full px-7 py-2"
+                  className="text-[#1CBCCF] cursor-pointer border-2 border-[#1CBCCF] hover:bg-[#1CBCCF] hover:!text-white transition duration-300 rounded-full px-7 py-2"
                 >
                   Apply as A clinic
                 </Link>
                 <Link
                   to="/login"
-                  className="cursor-pointer border-2 border-[#1CBCCF] hover:bg-[#d4fbff] transition duration-300 rounded-full px-7 py-2"
+                  className="text-[#1CBCCF] cursor-pointer border-2 border-[#1CBCCF] hover:bg-[#1CBCCF] hover:!text-white transition duration-300 rounded-full px-7 py-2"
                 >
                   LOGIN
                 </Link>
                 <Link
                   to="/register"
-                  className="cursor-pointer border-2 border-[#1CBCCF] hover:bg-[#d4fbff] transition duration-300 rounded-full px-7 py-2"
+                  className="text-[#1CBCCF] cursor-pointer border-2 border-[#1CBCCF] hover:bg-[#1CBCCF] hover:!text-white transition duration-300 rounded-full px-7 py-2"
                 >
                   REGISTER
                 </Link>
@@ -44,13 +44,13 @@ function Header() {
               <>
                 <Link
                   to="/dashboard"
-                  className="cursor-pointer border-2 border-[#1CBCCF] hover:bg-[#d4fbff] transition duration-300 rounded-full px-7 py-2"
+                  className="text-[#1CBCCF] cursor-pointer border-2 border-[#1CBCCF] hover:bg-[#1CBCCF] hover:!text-white transition duration-300 rounded-full px-7 py-2"
                 >
                   DASHBOARD
                 </Link>
                 <Link
                   onClick={logout}
-                  className="cursor-pointer border-2 border-[#1CBCCF] hover:bg-[#d4fbff] transition duration-300 rounded-full px-7 py-2"
+                  className="text-[#1CBCCF] cursor-pointer border-2 border-[#1CBCCF] hover:bg-[#1CBCCF] hover:!text-white transition duration-300 rounded-full px-7 py-2"
                 >
                   LOGOUT
                 </Link>
@@ -74,7 +74,9 @@ function Header() {
               <Link
                 to="/"
                 className={`transition duration-300 ${
-                  isActive("/") ? "text-[#1CBCCF]" : "hover:text-[#1CBCCF]"
+                  isActive("/")
+                    ? "text-[#1CBCCF]"
+                    : "text-black hover:text-[#1CBCCF]"
                 } `}
               >
                 Home
@@ -84,7 +86,7 @@ function Header() {
                 className={`transition duration-300 ${
                   isActive("/clinics")
                     ? "text-[#1CBCCF]"
-                    : "hover:text-[#1CBCCF]"
+                    : "text-black hover:text-[#1CBCCF]"
                 }`}
               >
                 Clinics
@@ -118,7 +120,6 @@ function Header() {
           </button>
         </div>
 
-        {/* قائمة التنقل */}
         <div className="px-5 py-6">
           <div className="flex flex-col gap-4 mb-6">
             <Link
@@ -126,8 +127,8 @@ function Header() {
               onClick={() => setMenuOpen(false)}
               className={`py-3 px-4 text-lg font-medium transition duration-300 ${
                 isActive("/")
-                  ? "text-[#1CBCCF] bg-blue-50 rounded-lg"
-                  : "text-gray-700 hover:text-[#1CBCCF] hover:bg-gray-50 rounded-lg"
+                  ? "!text-[#1CBCCF] bg-blue-50 rounded-lg"
+                  : "!text-gray-700 hover:!text-[#1CBCCF] hover:bg-gray-50 rounded-lg"
               }`}
             >
               Home
@@ -137,36 +138,35 @@ function Header() {
               onClick={() => setMenuOpen(false)}
               className={`py-3 px-4 text-lg font-medium transition duration-300 ${
                 isActive("/clinics")
-                  ? "text-[#1CBCCF] bg-blue-50 rounded-lg"
-                  : "text-gray-700 hover:text-[#1CBCCF] hover:bg-gray-50 rounded-lg"
+                  ? "!text-[#1CBCCF] bg-blue-50 rounded-lg"
+                  : "!text-gray-700 hover:!text-[#1CBCCF] hover:bg-gray-50 rounded-lg"
               }`}
             >
               Clinics
             </Link>
           </div>
 
-          {/* الأزرار */}
           <div className="flex flex-col gap-3 pt-4 border-t border-gray-200">
             {!user ? (
               <>
                 <Link
                   to="/clinic-register"
                   onClick={() => setMenuOpen(false)}
-                  className="w-full text-center cursor-pointer border-2 border-[#1CBCCF] text-[#1CBCCF] hover:bg-[#1CBCCF] hover:text-white transition duration-300 rounded-full px-6 py-3 font-medium"
+                  className="w-full text-center cursor-pointer border-2 border-[#1CBCCF] !text-[#1CBCCF] hover:bg-[#1CBCCF] hover:!text-white transition duration-300 rounded-full !px-6 !py-3 font-medium"
                 >
                   Apply as A clinic
                 </Link>
                 <Link
                   to="/login"
                   onClick={() => setMenuOpen(false)}
-                  className="w-full text-center cursor-pointer border-2 border-[#1CBCCF] text-[#1CBCCF] hover:bg-[#1CBCCF] hover:text-white transition duration-300 rounded-full px-6 py-3 font-medium"
+                  className="w-full text-center cursor-pointer border-2 border-[#1CBCCF] !text-[#1CBCCF] hover:bg-[#1CBCCF] hover:!text-white transition duration-300 rounded-full !px-6 !py-3 font-medium"
                 >
                   LOGIN
                 </Link>
                 <Link
                   to="/register"
                   onClick={() => setMenuOpen(false)}
-                  className="w-full text-center cursor-pointer border-2 border-[#1CBCCF] text-[#1CBCCF] hover:bg-[#1CBCCF] hover:text-white transition duration-300 rounded-full px-6 py-3 font-medium"
+                  className="w-full text-center cursor-pointer border-2 border-[#1CBCCF] !text-[#1CBCCF] hover:bg-[#1CBCCF] hover:!text-white transition duration-300 rounded-full !px-6 !py-3 font-medium"
                 >
                   REGISTER
                 </Link>
