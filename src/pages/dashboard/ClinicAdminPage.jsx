@@ -294,7 +294,9 @@ export default function ClinicAdminPage() {
                   {admins.map((a) => (
                     <tr key={a.id} className="border-b align-middle">
                       <td className="p-2">{a.name}</td>
-                      <td className="p-2">{a.email}</td>
+                      <td className="p-2" style={{ overflowWrap: "anywhere" }}>
+                        {a.email}
+                      </td>
 
                       <td className="p-2">
                         <div className="flex items-center gap-2">
