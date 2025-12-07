@@ -91,7 +91,7 @@ export const UserProvider = ({ children }) => {
     });
     const data = await res.json();
     if (data.statusCode !== 200) throw new Error(data.message);
-    return data.message;
+    return { success: true, message: data.message };
   };
 
   const login = async (email, password) => {

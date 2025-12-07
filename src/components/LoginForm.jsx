@@ -69,8 +69,8 @@ function LoginForm() {
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
-
+    event?.preventDefault();
+    console.log(event);
     if (!validateForm()) return;
 
     try {
@@ -98,7 +98,9 @@ function LoginForm() {
         onConfirm={async (code) => {
           try {
             if (noEmailconfirmed) {
-              await verifyEmail(formInputs.email, code);
+              let data = await verifyEmail(formInputs.email, code);
+              console.log(data);
+              if (data.success) await handleSubmit();
             } else await verifyLogin(formInputs.email, code);
             navigate("/dashboard");
           } catch (err) {
@@ -106,7 +108,9 @@ function LoginForm() {
             alert("Invalid OTP");
           }
         }}
-        onResend={(email) => sendOtp(email, "login")}
+        onResend={(email) =>
+          sendOtp(email, noEmailconfirmed ? "email" : "login")
+        }
         onClose={() => setShowOtpModal(false)}
       />
 
