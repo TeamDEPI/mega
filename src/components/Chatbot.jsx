@@ -21,12 +21,15 @@ export default function ChatWidget() {
   }, []);
   const loadOldMessages = async () => {
     try {
-      const res = await fetch(`http://localhost:8000/api/chat/messages`, {
-        headers: {
-          "accept-language": "en",
-          authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const res = await fetch(
+        `https://whcz52k4-8000.euw.devtunnels.ms/api/chat/messages`,
+        {
+          headers: {
+            "accept-language": "en",
+            authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
       const data = await res.json();
 
@@ -52,17 +55,20 @@ export default function ChatWidget() {
     setError(null);
 
     try {
-      const res = await fetch("http://localhost:8000/api/chat/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "accept-language": "en",
-          authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify({
-          message: userMsg.text,
-        }),
-      });
+      const res = await fetch(
+        "https://whcz52k4-8000.euw.devtunnels.ms/api/chat/create",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "accept-language": "en",
+            authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify({
+            message: userMsg.text,
+          }),
+        }
+      );
 
       if (!res.ok) throw new Error("API error");
 
