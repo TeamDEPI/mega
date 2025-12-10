@@ -19,7 +19,6 @@ function Landing() {
       {/* <RecentPosts /> */}
       <DoctorCards />
       <div className="h-36"></div>
-      <Footer />
     </div>
   );
 }
