@@ -81,7 +81,6 @@ function App() {
                 (r) => r.role === user?.usertype
               );
 
-              // (1) لو ده هو الـ Dashboard Home → path = "/dashboard/"
               const isDashboardHome = route.path === "/dashboard/";
 
               if (isDashboardHome) {
@@ -96,7 +95,6 @@ function App() {
                 );
               }
 
-              // (2) لو ده Route تاني (زي appointments)
               return (
                 <Route
                   key={route.path}
@@ -117,7 +115,6 @@ function App() {
               );
             }
 
-            // ---- الحالة العادية (roles = array of strings) ----
             return (
               <Route
                 key={route.path}

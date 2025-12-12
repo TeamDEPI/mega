@@ -12,7 +12,6 @@ function DashboardLayout({ user, loading }) {
   if (!user) return <Navigate to="/" />;
   return (
     <div className="flex min-h-screen bg-gray-50">
-      {/* SIDEBAR SECTION - ثابت تماماً */}
       <div
         className={`
           ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} 
@@ -25,7 +24,6 @@ function DashboardLayout({ user, loading }) {
         <Sidebar />
       </div>
 
-      {/* OVERLAY SECTION - Mobile only */}
       {isSidebarOpen && (
         <div
           className="fixed inset-0 bg-black/50 z-30 md:hidden"
@@ -33,11 +31,9 @@ function DashboardLayout({ user, loading }) {
         />
       )}
 
-      {/* MAIN CONTENT SECTION - مع مسافة للسايد بار */}
       <div className="flex-1 flex flex-col min-w-0 md:ml-64 transition-all duration-300">
         <Header onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
 
-        {/* MAIN CONTENT AREA - محتوى متحرك فقط */}
         <main className="flex-1 overflow-auto">
           <div className="p-6 min-h-full">
             <Outlet />

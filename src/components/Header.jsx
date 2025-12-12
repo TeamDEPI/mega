@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import logo from "../assets/images/logo.png";
 import { Link, useLocation } from "react-router-dom";
 import { UserContext } from "../Contexts/UserContext";
+import ScrollProgressBar from "./ScrollProgressBar";
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -11,50 +12,74 @@ function Header() {
   const isActive = (path) => currentPath === path;
 
   return (
-    <header className="relative">
-      <div className="sm:px-16 lg:px-40 xl:px-52 2xl:px-60 pb-2">
-        <div className="flex justify-between py-6 items-center">
+    <header className="fixed top-0 left-0 z-99 w-full bg-white shadow-md">
+      <div className="px-5 sm:px-16 md:px-6 lg:px-24 xl:px-36 2xl:px-60">
+        <div className="flex justify-between py-6 items-center gap-[30px]">
           <Link to="/">
             <img src={logo} className="w-36" alt="Logo" />
           </Link>
-
-          <div className="hidden md:block space-x-5">
+          {/* md:gap-5 lg:gap-16 xl:gap-24 2xl:gap-52 */}
+          <div className="hidden md:flex items-center gap-10 flex-1">
+            <div className="space-x-8 font-bold flex-1">
+              <Link
+                to="/"
+                className={`transition duration-300 ${
+                  isActive("/")
+                    ? "!text-[#1CBCCF] border-b-3 rounded-md pb-1"
+                    : "text-black hover:!text-[#1CBCCF]"
+                } `}
+              >
+                Home
+              </Link>
+              <Link
+                to="/clinics"
+                className={`transition duration-300 ${
+                  isActive("/clinics")
+                    ? "!text-[#1CBCCF] border-b-3 rounded-md pb-1"
+                    : "text-black hover:!text-[#1CBCCF]"
+                }`}
+              >
+                Clinics
+              </Link>
+            </div>
             {!user ? (
               <>
-                <Link
-                  to="/clinic-register"
-                  className="!text-[#1CBCCF] cursor-pointer border-2 border-[#1CBCCF] hover:bg-[#1CBCCF] hover:!text-white transition duration-300 rounded-full px-7 py-2"
-                >
-                  Apply as A clinic
-                </Link>
-                <Link
-                  to="/login"
-                  className="!text-[#1CBCCF] cursor-pointer border-2 border-[#1CBCCF] hover:bg-[#1CBCCF] hover:!text-white transition duration-300 rounded-full px-7 py-2"
-                >
-                  LOGIN
-                </Link>
-                <Link
-                  to="/register"
-                  className="!text-[#1CBCCF] cursor-pointer border-2 border-[#1CBCCF] hover:bg-[#1CBCCF] hover:!text-white transition duration-300 rounded-full px-7 py-2"
-                >
-                  REGISTER
-                </Link>
+                <div className="space-x-3">
+                  <Link
+                    to="/login"
+                    className="!text-white cursor-pointer bg-[#1CBCCF] hover:bg-transparent border-2 border-[#1CBCCF] hover:bg-[#1CBCCF] hover:!text-[#1CBCCF] transition duration-300 rounded-2xl px-5 py-2"
+                  >
+                    LOGIN
+                  </Link>
+                  <Link
+                    to="/register"
+                    className="!text-white cursor-pointer bg-[#1CBCCF] hover:bg-transparent border-2 border-[#1CBCCF] hover:bg-[#1CBCCF] hover:!text-[#1CBCCF] transition duration-300 rounded-2xl px-5 py-2"
+                  >
+                    REGISTER
+                  </Link>
+                  <Link
+                    to="/clinic-register"
+                    className="!text-[#1CBCCF] cursor-pointer border-2 border-[#1CBCCF] hover:bg-[#1CBCCF] hover:!text-white transition duration-300 rounded-2xl px-5 py-2"
+                  >
+                    Apply as A clinic
+                  </Link>
+                </div>
               </>
             ) : (
-              <>
+              <div className="space-x-3">
                 <Link
                   to="/dashboard"
-                  className="!text-[#1CBCCF] cursor-pointer border-2 border-[#1CBCCF] hover:bg-[#1CBCCF] hover:!text-white transition duration-300 rounded-full px-7 py-2"
+                  className="!text-white bg-[#1CBCCF] hover:bg-transparent hover:!text-[#1CBCCF] cursor-pointer border-2 border-[#1CBCCF] hover:bg-[#1CBCCF] transition duration-300 rounded-full px-7 py-2"
                 >
                   DASHBOARD
                 </Link>
                 <Link
                   onClick={logout}
-                  className="!text-[#1CBCCF] cursor-pointer border-2 border-[#1CBCCF] hover:bg-[#1CBCCF] hover:!text-white transition duration-300 rounded-full px-7 py-2"
+                  className="!text-white bg-[#1CBCCF] hover:bg-transparent hover:!text-[#1CBCCF] cursor-pointer border-2 border-[#1CBCCF] hover:bg-[#1CBCCF] transition duration-300 rounded-full px-7 py-2"
                 >
                   LOGOUT
                 </Link>
-              </>
+              </div>
             )}
           </div>
 
@@ -65,33 +90,6 @@ function Header() {
             <i
               className={`fa-solid ${menuOpen ? "fa-xmark" : "fa-bars"} w-4`}
             ></i>
-          </div>
-        </div>
-
-        <div className="relative hidden md:block z-10 border bg-white border-gray-100 rounded-md px-10 py-3 shadow-xl">
-          <div className="flex items-center justify-between gap-10 text-[#808080]">
-            <div className="flex gap-10">
-              <Link
-                to="/"
-                className={`transition duration-300 ${
-                  isActive("/")
-                    ? "!text-[#1CBCCF]"
-                    : "text-black hover:!text-[#1CBCCF]"
-                } `}
-              >
-                Home
-              </Link>
-              <Link
-                to="/clinics"
-                className={`transition duration-300 ${
-                  isActive("/clinics")
-                    ? "!text-[#1CBCCF]"
-                    : "text-black hover:!text-[#1CBCCF]"
-                }`}
-              >
-                Clinics
-              </Link>
-            </div>
           </div>
         </div>
       </div>
@@ -194,6 +192,7 @@ function Header() {
           </div>
         </div>
       </div>
+      <ScrollProgressBar />
     </header>
   );
 }
