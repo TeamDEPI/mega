@@ -70,7 +70,6 @@ function LoginForm() {
 
   const handleSubmit = async (event) => {
     event?.preventDefault();
-    console.log(event);
     if (!validateForm()) return;
 
     try {
@@ -99,7 +98,6 @@ function LoginForm() {
           try {
             if (noEmailconfirmed) {
               let data = await verifyEmail(formInputs.email, code);
-              console.log(data);
               if (data.success) await handleSubmit();
             } else await verifyLogin(formInputs.email, code);
             navigate("/dashboard");

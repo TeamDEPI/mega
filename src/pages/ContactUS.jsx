@@ -63,7 +63,6 @@ export default function Contactus() {
 
     // Simulate sending…
     setTimeout(() => {
-      console.log("Submitted:", formData);
       alert("Form Submitted Successfully!");
       setIsSubmitting(false);
 
