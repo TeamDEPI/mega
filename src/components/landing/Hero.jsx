@@ -22,12 +22,12 @@ function Hero() {
             <span>LIVE YOUR LIFE</span>
           </div>
           <h1 className="font-bold text-3xl sm:text-5xl lg:text-6xl xl:text-7xl leading-tight">
-            Insove
+            We Care About Your Health
           </h1>
           <p>
-            Vitae aliquam vestibulum elit adipiscing massa diam in dignissim.
-            Risus tellus libero elementum aliquam etiam. Lectus adipiscing est
-            auctor mi quisque nunc non viverra est.
+            Providing quality health care services focused on comfort and
+            well-being. Our team offers personalized support and modern medical
+            guidance for healthier living.
           </p>
           <Link
             to="/contact-us"
