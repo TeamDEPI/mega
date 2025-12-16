@@ -15,6 +15,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import ClinicsVisitorsPage from "./pages/ClinicsVisitorsPage";
 import ClinicDoctorsPage from "./pages/ClinicDoctorsPage";
 import Contactus from "./pages/ContactUS";
+import TermsOfService from "./pages/TermsOfService";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 function App() {
   const { user, loading } = useContext(UserContext);
@@ -25,6 +27,8 @@ function App() {
         <Route element={<PublicLayout />}>
           <Route path="/" element={<Landing />} />
           <Route path="/contact-us" element={<Contactus />} />
+          <Route path="/terms" element={<TermsOfService />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/clinics" element={<ClinicsVisitorsPage />} />
           <Route path="/clinic/:id/doctors" element={<ClinicDoctorsPage />} />
           <Route
