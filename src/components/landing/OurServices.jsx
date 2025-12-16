@@ -16,11 +16,11 @@ function OurServices() {
 
           <div className="sm:w-1/2">
             <p className="lg:max-w-[40vw]">
-              Vitae aliquam vestibulum elit adipiscing massa diam in dignissim.
-              Risus tellus libero elementum aliquam etiam. Lectus adipiscing est
-              auctor mi quisque nunc non viverra est. Risus tellus libero
-              elementum aliquam etiam. Lectus adipiscing est auctor mi quisque
-              nunc non viverra est.
+              We offer a wide range of healthcare services designed to support
+              every stage of your well-being. Our medical team provides reliable
+              guidance, personalized care, and trusted support for all patients.
+              With modern methods and compassionate service, we help you
+              maintain a healthier and safer lifestyle.
             </p>
           </div>
         </div>

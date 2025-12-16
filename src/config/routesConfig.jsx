@@ -88,6 +88,35 @@ export const dashboardRoutes = [
     element: "ClinicAdminPage",
     sidebar: false,
   },
+
+  {
+    name: "Doctors",
+    icon: <IoSettingsOutline className="w-5 h-5" />,
+    path: "/dashboard/doctors",
+    roles: ["ClinicReceptionist"],
+    element: "ReceptionDoctorsPage",
+  },
+
+  {
+    name: "Appointments",
+    icon: <IoSettingsOutline className="w-5 h-5" />,
+    path: "/dashboard/appointments",
+    roles: [
+      {
+        role: "ClinicDoctor",
+        element: "DoctorAppointmentsPage",
+      },
+      // {
+      //   role: "User",
+      //   element: "PatientAppointments",
+      // },
+      {
+        role: "ClinicReceptionist",
+        element: "ReceptionAppointments",
+      },
+    ],
+    // element: "DoctorAppointmentsPage",
+  },
   {
     name: "Change Password",
     icon: <IoSettingsOutline className="w-5 h-5" />,
@@ -126,34 +155,5 @@ export const dashboardRoutes = [
       "User",
     ],
     element: "EditUserPage",
-  },
-
-  {
-    name: "Doctors",
-    icon: <IoSettingsOutline className="w-5 h-5" />,
-    path: "/dashboard/doctors",
-    roles: ["ClinicReceptionist"],
-    element: "ReceptionDoctorsPage",
-  },
-
-  {
-    name: "Appointments",
-    icon: <IoSettingsOutline className="w-5 h-5" />,
-    path: "/dashboard/appointments",
-    roles: [
-      {
-        role: "ClinicDoctor",
-        element: "DoctorAppointmentsPage",
-      },
-      // {
-      //   role: "User",
-      //   element: "PatientAppointments",
-      // },
-      {
-        role: "ClinicReceptionist",
-        element: "ReceptionAppointments",
-      },
-    ],
-    // element: "DoctorAppointmentsPage",
   },
 ];

@@ -12,6 +12,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../Contexts/UserContext";
 
 import OtpModal from "../components/OtpModal";
+import image from "../assets/images/login/login.jpg";
 
 function LoginForm() {
   const navigate = useNavigate();
@@ -112,7 +113,7 @@ function LoginForm() {
         onClose={() => setShowOtpModal(false)}
       />
 
-      <div className="col-lg-6 px-5 d-none d-lg-flex flex-column justify-content-center">
+      {/* <div className="col-lg-6 px-5 d-none d-lg-flex flex-column justify-content-center">
         <h1 className="display-4 fw-bold">Sign In to get your nutrients</h1>
         <p className="lead mt-3">
           If you don’t have an account you can{" "}
@@ -123,8 +124,15 @@ function LoginForm() {
             Register here!
           </Link>
         </p>
+      </div> */}
+      <div className="col-lg-6 d-none d-lg-flex align-items-center justify-content-center p-4">
+        <img
+          src={image}
+          alt="Register Illustration"
+          className="img-fluid rounded-3 shadow-lg"
+          style={{ maxHeight: "80vh", maxWidth: "90%", objectFit: "contain" }}
+        />
       </div>
-
       <div className="col-12 col-lg-6 d-flex flex-column justify-content-center align-items-center p-2 p-md-5">
         <h2 className="mb-4 fw-bold fs-1">Welcome Back</h2>
 
@@ -218,6 +226,16 @@ function LoginForm() {
         <Link to="/forget-password">
           <p className="text-muted mt-4">Forget password?</p>
         </Link>
+        <p className="text-center mt-3 text-secondary">
+          If you don’t have an account you can{" "}
+          <Link
+            to="/login"
+            className="fw-bold text-decoration-none"
+            style={{ color: "#458FF6" }}
+          >
+            Register here!
+          </Link>
+        </p>
       </div>
     </div>
   );

@@ -12,7 +12,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../Contexts/UserContext";
 
 import OtpModal from "./OtpModal";
-
+import image from "../assets/images/login/login.jpg";
 function RegistrationForm() {
   const navigate = useNavigate();
   const { register, verifyEmail, sendOtp } = useContext(UserContext);
@@ -116,7 +116,7 @@ function RegistrationForm() {
   };
 
   return (
-    <div className="d-flex min-vh-100 width-container">
+    <div className="d-flex min-vh-100 align-items-center width-container">
       <OtpModal
         visible={showOtpModal}
         email={formInputs.email}
@@ -133,8 +133,8 @@ function RegistrationForm() {
         onClose={() => setShowOtpModal(false)}
       />
 
-      <div className="col-lg-6 px-5 d-none d-lg-flex flex-column justify-content-center">
-        <h1 className="display-4 fw-bold">Sign Up to get your nutrients</h1>
+      {/* <div className="col-lg-6 px-5 d-none d-lg-flex flex-column justify-content-center">
+         <h1 className="display-4 fw-bold">Sign Up to get your nutrients</h1>
 
         <p className="lead mt-3">
           If you already have an account{" "}
@@ -144,9 +144,17 @@ function RegistrationForm() {
           >
             Login here!
           </Link>
-        </p>
+        </p> 
+        <img src={image} alt="" className="w-100" />
+      </div> */}
+      <div className="col-lg-6 d-none d-lg-flex align-items-center justify-content-center p-4">
+        <img
+          src={image}
+          alt="Register Illustration"
+          className="img-fluid rounded-3 shadow-lg"
+          style={{ maxHeight: "80vh", maxWidth: "90%", objectFit: "contain" }}
+        />
       </div>
-
       <div className="col-12 col-lg-6 d-flex flex-column justify-content-center align-items-center p-2 p-md-5">
         <h2 className="mb-4 fw-bold fs-1">Welcome User</h2>
 
@@ -307,6 +315,16 @@ function RegistrationForm() {
           >
             Register
           </button>
+          <p className="text-center mt-3 text-secondary">
+            Already have an account?{" "}
+            <Link
+              to="/login"
+              className="fw-bold text-decoration-none"
+              style={{ color: "#458FF6" }}
+            >
+              Login here!
+            </Link>
+          </p>
         </form>
       </div>
     </div>

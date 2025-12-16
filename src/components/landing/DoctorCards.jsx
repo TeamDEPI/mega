@@ -11,7 +11,8 @@ const doctors = [
     hospital: "Global Hospital , Mumbai",
     price: "$20–50/ Consultation",
     desc: "With over a decade of clinical experience, Dr. Ananya Mehta is a trusted diabetologist decade of clinical experience in managing diabetes and related metabolic disorders. She specializes in personalized treatment plans and patient education.",
-    shortDesc: "With over a decade of clinical experience, Dr. Ananya Mehta is a trusted diabetologist decade of clinical exper...",
+    shortDesc:
+      "With over a decade of clinical experience, Dr. Ananya Mehta is a trusted diabetologist decade of clinical exper...",
     image: card,
   },
   {
@@ -23,7 +24,8 @@ const doctors = [
     hospital: "Global Hospital , Mumbai",
     price: "$20–50/ Consultation",
     desc: "With over a decade of clinical experience, Dr. Ananya Mehta is a trusted diabetologist decade of clinical experience in managing diabetes and related metabolic disorders. She specializes in personalized treatment plans and patient education.",
-    shortDesc: "With over a decade of clinical experience, Dr. Ananya Mehta is a trusted diabetologist decade of clinical exper...",
+    shortDesc:
+      "With over a decade of clinical experience, Dr. Ananya Mehta is a trusted diabetologist decade of clinical exper...",
     image: card,
   },
   {
@@ -35,7 +37,8 @@ const doctors = [
     hospital: "Global Hospital , Mumbai",
     price: "$20–50/ Consultation",
     desc: "With over a decade of clinical experience, Dr. Ananya Mehta is a trusted diabetologist decade of clinical experience in managing diabetes and related metabolic disorders. She specializes in personalized treatment plans and patient education.",
-    shortDesc: "With over a decade of clinical experience, Dr. Ananya Mehta is a trusted diabetologist decade of clinical exper...",
+    shortDesc:
+      "With over a decade of clinical experience, Dr. Ananya Mehta is a trusted diabetologist decade of clinical exper...",
     image: card,
   },
 ];
@@ -46,9 +49,9 @@ export default function DoctorCards() {
   const [selectedDoctor, setSelectedDoctor] = useState(null);
 
   const toggleExpand = (index) => {
-    setExpandedCards(prev => ({
+    setExpandedCards((prev) => ({
       ...prev,
-      [index]: !prev[index]
+      [index]: !prev[index],
     }));
   };
 
@@ -118,7 +121,7 @@ export default function DoctorCards() {
             {/* Description */}
             <p className="text-gray-600 text-sm leading-relaxed">
               {expandedCards[index] ? doc.desc : doc.shortDesc}{" "}
-              <button 
+              <button
                 onClick={() => toggleExpand(index)}
                 className="text-[#1CBCCF] cursor-pointer hover:text-[#1a9ba8] transition-colors duration-200 font-medium"
               >
@@ -130,7 +133,7 @@ export default function DoctorCards() {
             <p className="text-xl font-semibold">{doc.price}</p>
 
             {/* Button */}
-            <button 
+            <button
               onClick={() => handleBookAppointment(doc, index)}
               className="w-full bg-[#1CBCCF] text-white py-3 rounded-full font-medium hover:bg-[#1ca5b4] transition-all duration-300 hover:shadow-lg"
             >
@@ -142,43 +145,49 @@ export default function DoctorCards() {
 
       {/* Booking Modal */}
       {showBookingModal && selectedDoctor && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl p-6 max-w-md w-full">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-bold text-[#1CBCCF]">Book Appointment</h3>
-              <button 
+              <h3 className="text-xl font-bold text-[#1CBCCF]">
+                Book Appointment
+              </h3>
+              <button
                 onClick={closeModal}
                 className="text-gray-500 hover:text-gray-700 text-2xl"
               >
                 ×
               </button>
             </div>
-            
+
             <div className="space-y-4">
               <div className="flex items-center gap-4">
-                <img 
-                  src={selectedDoctor.image} 
+                <img
+                  src={selectedDoctor.image}
                   alt={selectedDoctor.name}
                   className="w-16 h-16 rounded-xl object-cover"
                 />
                 <div>
-                  <h4 className="font-semibold text-lg">{selectedDoctor.name}</h4>
+                  <h4 className="font-semibold text-lg">
+                    {selectedDoctor.name}
+                  </h4>
                   <p className="text-gray-600">{selectedDoctor.title}</p>
-                  <p className="text-gray-500 text-sm">{selectedDoctor.hospital}</p>
+                  <p className="text-gray-500 text-sm">
+                    {selectedDoctor.hospital}
+                  </p>
                 </div>
               </div>
-              
+
               <div className="space-y-3">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Select Date
                   </label>
-                  <input 
-                    type="date" 
+                  <input
+                    type="date"
                     className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1CBCCF] focus:border-transparent"
                   />
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Select Time
@@ -193,15 +202,15 @@ export default function DoctorCards() {
                   </select>
                 </div>
               </div>
-              
+
               <div className="flex gap-3 pt-4">
-                <button 
+                <button
                   onClick={closeModal}
                   className="flex-1 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition"
                 >
                   Cancel
                 </button>
-                <button 
+                <button
                   onClick={() => {
                     alert(`Appointment booked with ${selectedDoctor.name}!`);
                     closeModal();
