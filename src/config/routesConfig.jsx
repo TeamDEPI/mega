@@ -53,7 +53,7 @@ export const dashboardRoutes = [
     element: "ClinicUsers",
   },
   {
-    name: "Add Doctor",
+    name: "Add Clinic User",
     icon: <FaUserMd className="w-5 h-5" />,
     path: "/dashboard/create-doctor-account",
     roles: ["ClinicAdmin"],
