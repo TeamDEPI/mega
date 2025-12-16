@@ -41,6 +41,16 @@ function Header() {
               >
                 Clinics
               </Link>
+              <Link
+                to="/contact-us"
+                className={`transition duration-300 ${
+                  isActive("/contact-us")
+                    ? "!text-[#1CBCCF] border-b-3 rounded-md pb-1"
+                    : "text-black hover:!text-[#1CBCCF]"
+                }`}
+              >
+                Contact Us
+              </Link>
             </div>
             {!user ? (
               <>
@@ -141,6 +151,17 @@ function Header() {
               }`}
             >
               Clinics
+            </Link>
+            <Link
+              to="/contact-us"
+              onClick={() => setMenuOpen(false)}
+              className={`py-3 px-4 text-lg font-medium transition duration-300 ${
+                isActive("/contact-us")
+                  ? "!text-[#1CBCCF] bg-blue-50 rounded-lg"
+                  : "!text-gray-700 hover:!text-[#1CBCCF] hover:bg-gray-50 rounded-lg"
+              }`}
+            >
+              Contact Us
             </Link>
           </div>
 

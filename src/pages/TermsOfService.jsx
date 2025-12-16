@@ -156,12 +156,12 @@ export default function TermsOfService() {
       </div>
 
       <div className="mt-8 text-center">
-        <a
-          href="/"
+        <Link
+          to="/"
           className="inline-block bg-cyan-500 text-white px-8 py-3 rounded-full font-medium hover:bg-cyan-600 transition-colors"
         >
           Back to Home
-        </a>
+        </Link>
       </div>
     </div>
   );
